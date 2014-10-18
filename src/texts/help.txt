@@ -1,0 +1,57 @@
+
+
+What is 100? (or: what the crap am I playing?):
+ 
+100 is a very light-weight roguelike, wherein your objective is to make it to
+the top of a one-hundred story building, facing increasingly tougher
+opposition. The game uses a simple ASCII interface and relatively few commands.
+There are no NPCs, no shops and no side branches, making this very much a
+'Coffeebreak roguelike'.
+
+
+ 
+ 
+Game Overview (or: what the crap is going on?):
+
+This is you: @
+In most levels, your mission is to make it to the staircase (represented by >)
+and reach the next level. Pretty much everything else in the game is trying to
+kill you.
+Enemies are represented by letters, other characters can be weapons, grenades
+or other items you will drastically need to survive. If you are unsure about a
+character on the screen, use the (l)ook command to determine what it is.
+Except for a few, every level will have a variety of enemies that will stand in
+your way. They range from the simple Zeds, humanoid zombie-like shamblers, to
+robotic defense drones - and they all have one thing in common: they don't like
+you. You don't have to kill every enemy in a given level to proceed, but
+skipping too many might not be a good idea.
+Enemies have different abilities, strengths and weaknesses to consider.
+
+
+
+
+Key Bindings (or: How the crap do I play?):
+
+Arrow keys, End, PgUp, PgDn, Home - movement.
+
+f: fire equipped weapon (first press will trigger the aim, press again to shot)
+
+g: pick up an item
+
+r: reload
+
+e: arm an explosive device
+
+d/i: open inventory screen
+
+z: switch to your readied weapon
+
+l: look command
+
+>: go up the stairs (leaves level)
+
+Enter : wait
+
+?: help.
+
+ESC: exits the current screen/game

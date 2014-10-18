@@ -1,0 +1,73 @@
+{
+[name]: "Inhuman Strength"
+[desc]: "The corruption has made your muscles grow in an unreasonable pace. Your melee attacks are now much more powerful, also you do not have a weight 
+penalty on your movements since nothing now is heavy for you."
+}
+{
+[name]: "Thrill of the Kill"
+[desc]: "You are one sick son of a bitch, you enjoy killing so much that you actually gain HP from killing with a melee attack; 
+if you are at full health your health potential increases instead."
+}
+{
+[name]: "Incredible Speed"
+[desc]: "Your movements are so swift, one can barely see you before he meets his inevitable demise; your movements speed and your 
+melee attack speed are increased, as well as your dodging ability." 
+}
+{
+[name]: "Endurance"
+[desc]: "Pain?? What pain?? If they wanna hurt you, they've got to try harder... much harder. You start with an additional 20 HP"
+}
+{
+[name]: "Dodge Bullets"
+[desc]: "Like in a slo-mo scene from a movie, you can see their fingers slowly sliding down to squeeze that trigger, and your legs 
+just move by themselves to quickly place you out of harm's way. You can often evade bullets firing toward you as long as your inventory is light-weighted."
+}
+{
+[name]: "Claws"
+[desc]: "With all that happened lately seems you just forgot to trim your nails, and also somehow they became mighty claws, able to deal 
+great amount of damage, which will increace as you level up, making your unarmed attack probably your deadliest."
+}
+{
+[name]: "Headshot"
+[desc]: "'One shot. One kill.' is your motto in this new life. You always aim for the head, making sure you won't have to fire twice;
+Your chances of a critical hit when using a ranged weapon increases. You start with a 9mm handgun and three cartridges."
+}
+{
+[name]: "Anatomy Expert"
+[desc]: "You really know where all the soft spots of an organism are; you can either make them go down in one swift painless 
+strike, or you can make them scream for their lives; more often than not, you choose the latter. When using melee damage your chances 
+of critical increases."
+}
+{
+[name]: "Blade Dancer"
+[desc]: "Your sword is an extension of your arm, it moves as if it was integral part of your very being, with perfect harmony with the rest of 
+your body, making you a very deadly killing machine. The damage of your sword and its attack speed increases, as well as your dodge 
+when your wielding it, you of course also starts with a sabre."
+}
+{
+[name]: "Explosives Expert"
+[desc]: "The deafening shriek, the gunpowder scent, the taste of the air that follows, you're just the biggest fan of anything that goes KABLOOIE. 
+When you start using those grenades and explosives a simple BANG or BLAM just doesn't cut it anymore. You start with 6 grenades and a plastic 
+explosive."
+}
+{
+[name]: "Rapid Fire"
+[desc]: "You reach for your gun and the whole world seems to slow down just for you. You can hear your heart beating, feel the recoil of the gun 
+in your hands, smell the scent of your enemy's fear, and you have just enough time for another shot. You can shot and draw ranged weapons incredibly 
+fast. You start with a 9mm handgun and three cartridges."
+}
+{
+[name]: "Eagle Eye"
+[desc]: "You could probably shoot them all even with your eyes close, just listening to their heartbeats, you just can't miss. You also starts with 
+a 9mm handgun and three cartridges."
+}
+{
+[name]: "Natural Armor"
+[desc]: "You love the look on your enemies' face when they realize the three bullets they had just fired at you barely even scratched your skin, 
+you then smile at them maniacally, while terror creeps into their eyes. Your skin is a natural armor, you take less damage from attacks."
+}
+{
+[name]: "Faster Healing Factor"
+[desc]: "You hear a sound of a small metal object falling on the ground near you. What is that, you ask? Well, it's a bullet fired at you not two 
+minutes ago, your body just pushed it out and your wound is closing. You have a very fast healing factor."
+}
