@@ -181,3 +181,12 @@
 [dodge]:12
 [weapon]: "vule's bite"
 }
+{
+[name]: "Harbinger"
+[HP]: 40
+[XP]: 44
+[vision]: 10
+[move]: 7
+[dodge]: 10
+[weapon]: "5.56mm assault rifle"
+}

@@ -23,6 +23,8 @@ public class AI {
 		if ((foe.weapon().isRanged() && foe.ammo()==0) || foe.weapon() ==  Item.NO_WEAPON)
 			return KeyEvent.VK_Z;
 		if (player != null){
+			if (foe.name.equals("Harbinger") && player.distance2(foe.x, foe.y)>3)
+				return KeyEvent.VK_K;
 			if (foe.weapon().isRanged())
 				if (foe.weapon().cartridge.equals("12ga shell") && foe.weapon().rounds==0)
 					return KeyEvent.VK_R;
@@ -36,7 +38,7 @@ public class AI {
 			}	
 		}	
 		else{
-			if (foe.name.endsWith("drone"))
+			if (foe.name.endsWith("drone") || foe.name.equals("Harbinger"))
 				return 0;
 			if (foe.weapon().isRanged())
 				if (foe.weapon().cartridge.equals("12ga shell") && foe.weapon().rounds<foe.weapon().capacity)

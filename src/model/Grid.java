@@ -200,6 +200,15 @@ public class Grid {
 		}
 	}
 	
+	public Point summon(String name){
+			Point p;
+			do{
+				p = Random.nextPoint(width/2, width-2, 1, height-2);
+			}while(!get(Grid.TERRAIN, p.x, p.y).equals("summoning spot") || map(MOBS).containsKey(p));
+			set(Grid.MOBS, p.x, p.y, name);
+			return p;
+	}
+	
 	private void addFoes(int amount, String name, MOB player){
 		for (int i=0; i<amount; i++){
 			Point p;
@@ -272,6 +281,10 @@ public class Grid {
 		}
 		if (floor == 36){
 			readFile("laboratory.map", true);
+			return false;
+		}
+		if (floor == 45){
+			readFile("harbinger.map", true);
 			return false;
 		}
 		copy(new RandomMap(width, height).grid);		

@@ -84,6 +84,7 @@ public class MOB{
 			get(Item.clone("type II frag grenade"));
 			get(Item.clone("plastic explosive"));
 		}	
+		
 	}
 	
 	public static MOB foe(String name){

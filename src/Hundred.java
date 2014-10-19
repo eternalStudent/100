@@ -187,6 +187,10 @@ public class Hundred{
 			if (m != data.player)
 				data.scream(m);
 			break;
+		case KeyEvent.VK_K:
+			if (m != data.player)
+				data.summon(m);
+			break;
 		}
 		
 	}

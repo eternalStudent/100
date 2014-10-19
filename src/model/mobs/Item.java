@@ -111,13 +111,7 @@ public class Item{
 		String name = this.name;
 		if (name.startsWith("."))
 			name = name.substring(1);
-		try{
-			return getClass().getResource("/sound/"+name+".wav");
-		}
-		catch(Exception e){		
-			e.printStackTrace();
-		}
-		return null;
+		return getClass().getResource("/sound/"+name+".wav");
 	}
 	
 	public void playSound(){
@@ -129,7 +123,7 @@ public class Item{
 		    clip.start();
 		}
 		catch(Exception e){
-			e.printStackTrace();
+			System.out.println(name);
 		}
 	}
 	

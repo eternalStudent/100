@@ -32,6 +32,7 @@ public class Game {
 	public final List<Item> items = new ArrayList<>();
 	private final Grid grid = new Grid(80, 25);
 	public final Log log = new Log(3);
+	private MOB summoned;
 	
 	
 	public Game(List<Trait> traits){
@@ -43,6 +44,7 @@ public class Game {
 		else
 			log.write("To use melee attack simply walk toward your enemy's tile");
 		log.write("Press 'd' to view your inventory.");
+		grid.floor=44;
 	}
 	
 	
@@ -514,9 +516,9 @@ public class Game {
 		// effect
 		Line line = new Line(m.x, m.y, target.x, target.y);
 		sight(player);
-		int i=0;
+		int i=Math.min(line.distance(), 7);
 		do{
-			i++;
+			i--;
 			target = line.next();
 			grid.effects.clear();
 			grid.effects.put(target, new Tile(249, 15, 0));
@@ -527,7 +529,7 @@ public class Game {
 				grid.set(Grid.TERRAIN, target.x, target.y, "floor");
 			if (grid.isSolid(target.x, target.y))
 				break;
-		}while(i<7 || !weapon.isGrenade());
+		}while(i>0 || !weapon.isGrenade());
 		int r = weapon.radius;
 		boom(board, target.x, target.y, r);
 		
@@ -716,6 +718,15 @@ public class Game {
 		}
 	}
 	
+	public void summon(MOB m){
+		String[] minions = {"kapre", "inspector", "officer", "overseer", "giant herdling", "soldier", "swordsman"};
+		int r = Random.nextInt(minions.length);
+		Point p = grid.summon(minions[r]);
+		summoned = MOB.newInstance(minions[r], p.x, p.y);
+		sight(summoned);
+		m.hold(9);
+	}
+	
 	
 	public void poison(MOB m){
 		if (m.poison())
@@ -728,6 +739,10 @@ public class Game {
 	public void endOfRound(Board board){
 		player.waited();
 		poison(player);
+		if (summoned != null){
+			foes.add(summoned);
+			summoned = null;
+		}	
 		Iterator<MOB> it1 = foes.iterator();
 		while(it1.hasNext()){
 			MOB m = it1.next();
@@ -736,6 +751,10 @@ public class Game {
 			else{
 				m.waited();
 				poison(m);
+				if (m.name.equals("Harbinger") && Random.isNext(6) && m.isWounded()){
+					log.write("The Harbinger heal himself");
+					m.heal(1);
+				}
 				if (m.stun>0){
 					m.visual.remove(new Point(player.x, player.y));
 					m.stun--;
@@ -754,7 +773,7 @@ public class Game {
 					boom(board, item.x, item.y, r);
 					for (Point p: Point.sphere(item.x, item.y, r)){
 						damage(findFoe(p.x, p.y), item, false);
-						if (grid.get(Grid.TERRAIN, p.x, p.y).endsWith("wall"))
+						if (!grid.get(Grid.TERRAIN, p.x, p.y).equals("stairway"))
 							grid.set(Grid.TERRAIN, p.x, p.y, "floor");
 						grid.remove(Grid.ITEMS, p.x, p.y);
 					}	
