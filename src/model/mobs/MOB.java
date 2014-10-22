@@ -1,8 +1,13 @@
 package model.mobs;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 import util.Point;
 import util.Random;
@@ -119,6 +124,26 @@ public class MOB{
 		}
 	}
 	
+	protected URL sound(){
+		String name = this.name;
+		if (name.startsWith("."))
+			name = name.substring(1);
+		return getClass().getResource("/sound/"+name+".wav");
+	}
+	
+	public void playSound(){
+		try{
+			URL url = sound();
+		    Clip clip = AudioSystem.getClip();
+		    AudioInputStream ais = AudioSystem.getAudioInputStream( url );
+		    clip.open(ais);
+		    clip.start();
+		}
+		catch(Exception e){
+			System.out.println(name);
+		}
+	}
+	
 	public void move(int x, int y){
 		this.x = x;
 		this.y = y;
@@ -149,6 +174,8 @@ public class MOB{
 			if (name.equals("player")){
 				if (inTraits("Claws"))
 					return Item.CLAWS;
+				if (hasKnuckles())
+					return Item.KNUCKLES;
 				return Item.UNARMED;
 			}	
 			return Item.NO_WEAPON;
@@ -212,17 +239,21 @@ public class MOB{
 		return inv.ready();
 	}
 	
-	public String use(){
-		String name = inv.use();
-		if (name != null){
-			if (name.equals("bandage"))
+	public Item use(Item item){
+		inv.use(item);
+		if (item != null){
+			if (item.name.equals("bandage"))
 				heal(5);
-			if (name.equals("adrenaline syringe")){
-				maxHP -= 5;
+			if (item.name.equals("adrenaline syringe")){
+				maxHP -= 20;
 				heal(20);
 			}
 		}
-		return name;
+		return item;
+	}
+	
+	public Item use(){
+		return use(inv.get());
 	}
 	
 	public void swap(){
@@ -254,6 +285,10 @@ public class MOB{
 	
 	public boolean isMasked(){
 		return inv.isMasked();
+	}
+	
+	public boolean hasKnuckles(){
+		return inv.hasKnuckles();
 	}
 	
 	public boolean hisTurn(){
@@ -337,7 +372,7 @@ public class MOB{
 	}
 	
 	public String toString(){
-		return name+" "+HP+" "+XP;
+		return name;
 	}
 
 }

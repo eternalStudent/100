@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Locale;
 
 import model.Game;
+import model.mobs.Item;
 import model.mobs.ListOfTraits;
 import model.mobs.MOB;
 import model.mobs.Trait;
@@ -160,15 +161,21 @@ public class Hundred{
 		case KeyEvent.VK_I:
 			data.inventory(board, keyboard);
 			break;
+		case KeyEvent.VK_E:
+			Item item = data.findItem(m.x, m.y);
+			if (item.isEquipable())
+				data.equip(m, data.get(m));
+			else
+				data.activate(m);
+			break;	
 		case KeyEvent.VK_R:
 			data.reload(m);
 			break;
 		case KeyEvent.VK_Z:
 			data.swap(m);
 			break;
-		case KeyEvent.VK_E:
-			data.arm(m);
-			break;
+		case KeyEvent.VK_U:
+			data.use(m, data.findItem(m.x, m.y));
 		case KeyEvent.VK_GREATER:
 			data.stairway();
 			break;

@@ -44,7 +44,6 @@ public class Game {
 		else
 			log.write("To use melee attack simply walk toward your enemy's tile");
 		log.write("Press 'd' to view your inventory.");
-		grid.floor=44;
 	}
 	
 	
@@ -62,6 +61,10 @@ public class Game {
 		catch(Exception e){
 			e.printStackTrace();
 		}
+	}
+	
+	private void playSound(String sound){
+		playSound(getClass().getResource("/sound/"+sound+".wav"));
 	}
 
 	
@@ -113,8 +116,9 @@ public class Game {
 	
 	
 	public void death(MOB m){
+		m.playSound();
 		if (m!=player){
-			log.write("The "+m.name+" is slain.");
+			log.write("The "+m+" is slain.");
 			if (player.levelUp(m.XP))
 				log.write("You are now level "+player.level+".");
 		}
@@ -162,8 +166,8 @@ public class Game {
 		int vision = m.stun>0? 1: m.vision;
 		for (Point p: Point.sphere(m.x,  m.y,  vision))
 			inSight(m, p.x, p.y);
-		if (m.isWounded() && m.stun==0 && inSight(m, player.x, player.y) && Point.distance2(m.x, m.y, player.x, player.y)<=7){
-			m.visual.add(new Point(player.x, player.y));
+		if (m.isWounded() && m.stun==0 && Point.distance2(m.x, m.y, player.x, player.y)<=8){
+			inSight(m, player.x, player.y);
 		}	
 		if (m==player && foes.size()>0){
 			boolean b = false;
@@ -201,11 +205,26 @@ public class Game {
 			Item item = findItem(m.x, m.y);
 			if (m==player && item != null){
 				String text = "There's "+Words.article(item)+item.name+" there.";
-				if (grid.floor == 1)
+				if (grid.floor == 1){
 					text += " Press  'g' to pick it up.";
+					if (item.isEquipable())
+						text += " Press 'e' to equip it.";
+				}	
 				if (item.isExplosive())
 					text += " Press 'e' to arm it.";
+				if (item.isUsable())
+					text += " Press 'u' to use it.";
 				log.write(text);
+			}	
+			if ( m== player){
+				String terrain = grid.get(Grid.TERRAIN, m.x, m.y);
+				if (terrain.equals("toilet") || terrain.equals("sink"))
+					log.write("Theres a "+terrain+" there. Press 'e' to use it.");
+				if (terrain.equals("corpse") && grid.floor==19){
+					log.write("There is something very familiar about this dead man,");
+					log.write("but you ca't quite put your finger on it.");
+					log.write("You wonder who this guy was, and what had happened to him.");
+				}
 			}	
 		}
 	}
@@ -288,14 +307,14 @@ public class Game {
 			}
 			
 			// log
-			String text = m0==player? "You attack the "+m1.name+" with a " : "The "+m0.name+" attacks you with his ";
+			String text = m0==player? "You attack the "+m1+" with a " : "The "+m0+" attacks you with his ";
 			text += m0.weapon()+".";
 			log.write(text);
 			
 			// dodge
 			int dodge = m1 == player && m1.weapon().name.equals("sabre") && m1.inTraits("Blade Dancer")? 30: m1.dodge;
 			if (Random.nextInt(60)<dodge){
-				text = m1==player? "you dodge": "The "+m1.name+"dodges";
+				text = m1==player? "you dodge": "The "+m1+"dodges";
 				text += " the hit";
 				log.write(text);
 				return;
@@ -338,19 +357,16 @@ public class Game {
 	}
 	
 	
-	public void get(MOB m, int x, int y){
+	public Item get(MOB m){
 		Item item = findItem(m.x, m.y);
 		boolean b = get(m, item);
 		if (b){
-			grid.remove(Grid.ITEMS, x, y);
+			grid.remove(Grid.ITEMS, m.x, m.y);
 			items.remove(item);
 			m.hold();
-		}	
-	}
-	
-	
-	public void get(MOB m){
-		get(m, m.x, m.y);
+			return item;
+		}
+		return null;
 	}
 	
 	
@@ -383,15 +399,20 @@ public class Game {
 	}
 	
 	
-	public boolean equip(MOB m){
-		if (m.equip()){
-			if (m == player){
-				Item item = m.inv.get();
+	public boolean equip(MOB m, Item item){
+		if (item == null)
+			return false;
+		if (m.equip(item)){
+			if (m == player)
 				log.write("You equip the "+item+".");
-			}
 			return true;
 		}
 		return false;
+	}
+	
+	
+	public boolean equip(MOB m){
+		return equip(m, m.inv.get());
 	}
 	
 	
@@ -516,7 +537,7 @@ public class Game {
 		// effect
 		Line line = new Line(m.x, m.y, target.x, target.y);
 		sight(player);
-		int i=Math.min(line.distance(), 7);
+		int i=Math.min(line.distance(), 5);
 		do{
 			i--;
 			target = line.next();
@@ -623,19 +644,26 @@ public class Game {
 	}
 	
 	
-	public boolean use(MOB m){
-		String item = m.use();
+	public boolean use(MOB m, Item item){
+		m.use(item);
 		if (item != null){
-			String text = m==player? "You use": "The "+m.name+" uses ";
+			String text = m==player? "You use": "The "+m+" uses ";
 			text +=Words.article(item)+item+".";
 			log.write(text);
+			if (item == findItem(m.x, m.y))
+				grid.remove(Grid.ITEMS, m.x, m.y);
 			return true;
 		}
 		return false;
 	}
 	
 	
-	public void arm(MOB m){
+	public boolean use(MOB m){
+		return use(m, m.inv.get());
+	}
+	
+	
+	public void activate(MOB m){
 		Item item = findItem(m.x, m.y);
 		if (item != null){
 			if (item.isExplosive()){
@@ -643,7 +671,17 @@ public class Game {
 				m.hold();
 				if (m==player)
 					log.write("You arm the explosives");
+				return;
 			}
+		}
+		String terrain = grid.get(Grid.TERRAIN, m.x, m.y);
+		if (terrain.equals("toilet")){
+			playSound("toilet");
+			log.write("You use the toilet, a much needed relief.");
+		}
+		if (terrain.equals("sink")){
+			playSound("sink");
+			log.write("You wash your hands in the sink.");
 		}
 	}
 	
@@ -675,13 +713,17 @@ public class Game {
 		String terrain = grid.get(Grid.TERRAIN, player.x, player.y);
 		if (terrain.equals("stairway") || terrain.equals("elevator")){
 			try {
-				if (terrain.equals("elevator"))
+				if (terrain.equals("elevator")){
 					grid.floor+=5;
+					playSound("elevator");
+				}	
 				else
-					playSound(getClass().getResource("/sound/stairway.wav"));
+					playSound("stairway");
 				newFloor();
 				if (grid.floor == 30)
-					playSound(getClass().getResource("/sound/killer floor.wav"));
+					playSound("killer floor");
+				if (grid.floor == 45)
+					playSound("harbinger floor");
 			} 
 			catch (IOException | ParseException | URISyntaxException e) {
 				e.printStackTrace();

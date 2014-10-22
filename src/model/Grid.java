@@ -287,7 +287,9 @@ public class Grid {
 			readFile("harbinger.map", true);
 			return false;
 		}
-		copy(new RandomMap(width, height).grid);		
+		copy(new RandomMap(width, height).grid);
+		if (floor == 19)
+			readFile("last resting place.map", false);
 		return true;
 	}
 	

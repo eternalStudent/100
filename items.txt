@@ -67,12 +67,10 @@
 }
 {
 [name]: "brass knuckles"
-[type]: M
+[type]: E
 [desc]: "Pieces of metal shaped to fit around the knuckles, used in hand-to-hand combat and designed to concentrate a punch's force"
 [weight]: 0
 [space]: 1
-[damage]: 2
-[time]: 8
 }
 {
 [name]: "chef knife"

@@ -6,7 +6,7 @@ What is 100? (or: what the crap am I playing?):
 the top of a one-hundred story building, facing increasingly tougher
 opposition. The game uses a simple ASCII interface and relatively few commands.
 There are no NPCs, no shops and no side branches, making this very much a
-'Coffeebreak roguelike'.
+'Coffeebreak Roguelike'.
 
 
  
@@ -34,23 +34,25 @@ Key Bindings (or: How the crap do I play?):
 
 Arrow keys, End, PgUp, PgDn, Home - movement.
 
-f: fire equipped weapon (first press will trigger the aim, press again to shot)
+f: fire equipped weapon (first press will trigger the aim, press again to shot).
 
-g: pick up an item
+g: pick up an item.
 
-r: reload
+r: reload.
 
-e: arm an explosive device
+e: arm an explosive device or equip an item.
 
-d/i: open inventory screen
+d/i: open inventory screen.
 
-z: switch to your readied weapon
+z: switch to your readied weapon.
 
-l: look command
+u: use an item.
 
->: go up the stairs (leaves level)
+l: look command.
 
-Enter : wait
+>: go up the stairs (leaves level).
+
+Enter : wait.
 
 ?: help.
 

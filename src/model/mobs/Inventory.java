@@ -11,12 +11,12 @@ public class Inventory {
 	protected Item readied;
 	protected Item weapon;
 	protected Item armor;
+	protected Item gasMask;
+	protected Item brassKnuckles;
 	protected int weight = 0;
 	protected int space = 0;
 	
-	protected Inventory(){
-		//System.out.println(Item.clone("type I fragmentation grenade").radius);
-	}
+	protected Inventory(){}
 	
 	private Item find(String st){
 		for (Item item: list)
@@ -41,6 +41,10 @@ public class Inventory {
 		if (item == null)
 				return;
 		item.equiped = false;
+		if (item == gasMask)
+			gasMask = null;
+		if (item == brassKnuckles)
+			brassKnuckles = null;
 		if (item == weapon)
 			weapon = null;
 		if (item == armor)
@@ -78,10 +82,18 @@ public class Inventory {
 	
 	protected boolean equip(Item item){
 		if (item.isEquipable()){
-			if (item.name.equals("gas mask") && isMasked())
-				return false;
 			if (!contains(item))
 				add(item);
+			if (item.name.equals("gas mask")){
+				if (gasMask != null)
+					gasMask.equiped = false;
+				gasMask = item;
+			}	
+			if (item.name.equals("brass knuckles")){
+				if (brassKnuckles != null)
+					brassKnuckles.equiped = false;
+				brassKnuckles = item;
+			}	
 			if (item.isWeapon()){
 				if (weapon != null)
 					weapon.equiped = false;
@@ -119,16 +131,18 @@ public class Inventory {
 		return false;
 	}
 	
-	protected String use(Item item){
+	protected Item use(Item item){
+		if (item == null)
+			return null;
 		if (item.isUsable()){
 			item.playSound();
 			remove(item);
-			return item.name;
+			return item;
 		}
 		return null;
 	}
 	
-	protected String use(){
+	protected Item use(){
 		return use(get());
 	}
 	
@@ -208,12 +222,11 @@ public class Inventory {
 	}
 	
 	protected boolean isMasked(){
-		for (int i=0; i<size(); i++){
-			Item item = get(i);
-			if (item.name.equals("gas mask") && item.equiped)
-				return true;
-		}
-		return false;
+		return gasMask != null;
+	}
+	
+	protected boolean hasKnuckles(){
+		return brassKnuckles != null;
 	}
 	
 	public int size(){
