@@ -63,28 +63,31 @@ public class GameScreen extends Screen{
 		}
 		g.setColor(tileset.color(15));
 		writeTF(g, "HP: "+player.HP, grid.width, 0);
-		writeTF(g, "weapon: "+player.weapon().name, grid.width, 1);
-		writeTF(g, "floor: "+grid.floor, grid.width, 3);
-		writeTF(g, "level: "+player.level, grid.width, 4);
-		writeTF(g, "XP: "+(player.XP*100)/MOB.goal[player.level]+"%", grid.width, 5);
+		writeTF(g, "grenades: ", grid.width, 1);
+		for (int i=0; i<player.inv.grenades.size(); i++)
+			draw(g, keyMap.get(player.inv.grenades.get(i).name), grid.width+5+i, 1);
+		writeTF(g, "weapon: "+player.weapon().name, grid.width, 2);
+		writeTF(g, "floor: "+grid.floor, grid.width, 4);
+		writeTF(g, "level: "+player.level, grid.width, 5);
+		writeTF(g, "XP: "+(player.XP*100)/MOB.goal[player.level]+"%", grid.width, 6);
 		if (player.ammo()<2 && player.weapon().isRanged())
 			g.setColor(tileset.color(12));
-		writeTF(g, "ammo: "+player.ammo(), grid.width, 2);
+		writeTF(g, "ammo: "+player.ammo(), grid.width, 3);
 		if (player.weight()==0){
 			g.setColor(tileset.color(15));
-			writeTF(g, "light weight", grid.width, 7);
+			writeTF(g, "light weight", grid.width, 8);
 		}
 		else if (player.weight()==1){
 			g.setColor(tileset.color(14));
-			writeTF(g, "medium weight", grid.width, 7);
+			writeTF(g, "medium weight", grid.width, 8);
 		}
 		else{
 			g.setColor(tileset.color(12));
-			writeTF(g, "heavy weight", grid.width, 7);
+			writeTF(g, "heavy weight", grid.width, 8);
 		}
 		if (player.poison>0){
 			g.setColor(tileset.color(10));
-			writeTF(g, "poisoned!", grid.width, 8);
+			writeTF(g, "poisoned!", grid.width, 9);
 		}
 		write(g, "need some help", 63, 19, 7);
 		write(g, "with that?", 65, 20, 7);

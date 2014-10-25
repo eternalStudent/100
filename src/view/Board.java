@@ -20,7 +20,7 @@ import model.mobs.Trait;
 public class Board extends JFrame{
 	
 	private final TileKeyMap keyMap = new TileKeyMap();
-	private final Tileset tileset = new Tileset("Tileset.png");
+	private final Tileset tileset = new Tileset("tileset.png");
 	
 	public Board(){
 		super();

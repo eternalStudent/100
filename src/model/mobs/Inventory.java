@@ -8,6 +8,7 @@ public class Inventory {
 	
 	private List<Item> list = new ArrayList<>();
 	private int selected = 0;
+	public List<Item> grenades = new ArrayList<>();
 	protected Item readied;
 	protected Item weapon;
 	protected Item armor;
@@ -41,6 +42,7 @@ public class Inventory {
 		if (item == null)
 				return;
 		item.equiped = false;
+		grenades.remove(item);
 		if (item == gasMask)
 			gasMask = null;
 		if (item == brassKnuckles)
@@ -94,7 +96,13 @@ public class Inventory {
 					brassKnuckles.equiped = false;
 				brassKnuckles = item;
 			}	
-			if (item.isWeapon()){
+			if (item.isGrenade()){
+				if (grenades.size()<4)
+					grenades.add(item);
+				else
+					return false;
+			}
+			else if (item.isWeapon()){
 				if (weapon != null)
 					weapon.equiped = false;
 				weapon = item;
@@ -119,7 +127,7 @@ public class Inventory {
 	}
 	
 	protected boolean ready(Item item){
-		if(item.isWeapon()){
+		if(item.isWeapon() & !item.isGrenade()){
 			if (!contains(item))
 				add(item);
 			if (item == weapon)
@@ -162,12 +170,13 @@ public class Inventory {
 		return weapon.capacity;
 	}
 	
+	protected void throwGrenade(){
+		getGrenade().playSound();
+		grenades.remove(0);
+	}
+	
 	protected void fire(){
-	    weapon.playSound();
-	    if (weapon.isGrenade()){
-	    	remove(weapon);
-	    	return;
-	    }	
+	    weapon.playSound();	
 	    if (weapon.name.equals("submachine gun"))
 	    	weapon.rounds -= Math.min(Random.normal(3, 5), weapon.rounds);
 		if (weapon.cartridge.equals("12ga shell")){
@@ -212,6 +221,8 @@ public class Inventory {
 	protected void swap(){
 		Item item = weapon;
 		if (readied == null){
+			if (weapon == null)
+				return;
 			weapon.equiped = false;
 			weapon = null;
 		}	
@@ -219,6 +230,12 @@ public class Inventory {
 			equip(readied);
 		if (item != null)
 			ready(item);
+	}
+	
+	public Item getGrenade(){
+		if (grenades.size() == 0)
+			return null;
+		return grenades.get(0);
 	}
 	
 	protected boolean isMasked(){

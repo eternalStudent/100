@@ -28,6 +28,7 @@ import model.mobs.Trait;
 public class Game {
 	
 	public final MOB player;
+	public Point[] darkEater = new Point[3];
 	public final List<MOB> foes = new ArrayList<>();
 	public final List<Item> items = new ArrayList<>();
 	private final Grid grid = new Grid(80, 25);
@@ -77,6 +78,7 @@ public class Game {
 		if (grid.next())
 			grid.setStairs(player);
 		foes.clear();
+		darkEater[0] = null;
 		items.clear();
 		for (Point p: grid.map(Grid.MOBS).keySet()){
 			String name = grid.get(Grid.MOBS, p.x, p.y);
@@ -88,7 +90,16 @@ public class Game {
 				MOB m = MOB.newInstance(name, p.x, p.y);
 				foes.add(m);
 				sight(m);
+				if (m.name.equals("Dark Eater")){
+					darkEater[0] = new Point(m.x, m.y);
+					darkEater[1] = new Point(m.x+1, m.y);
+					darkEater[2] = new Point(m.x+2, m.y);		
+				}
 			}	
+		}
+		if (darkEater[0] != null){
+			grid.set(Grid.MOBS, darkEater[1].x, darkEater[1].y, "Dark Eater");
+			grid.set(Grid.MOBS, darkEater[2].x, darkEater[2].y, "Dark Eater");
 		}
 		for (Point p: grid.map(Grid.ITEMS).keySet())
 			items.add(Item.newInstance(grid.get(Grid.ITEMS, p.x, p.y), p.x, p.y));
@@ -98,6 +109,11 @@ public class Game {
 	
 	
 	public MOB findFoe(int x, int y){
+		if (darkEater[0] != null)
+			if ((darkEater[1].x == x && darkEater[1].y == y) || (darkEater[2].x == x && darkEater[2].y == y)){ 
+				x = darkEater[0].x; 
+				y = darkEater[0].y;
+			}
 		if (player.x==x && player.y==y)
 			return player;
 		for (MOB m: foes)
@@ -133,10 +149,17 @@ public class Game {
 			drop(m);	
 		if (grid.get(Grid.ITEMS, m.x, m.y).equals("blood"))
 			grid.remove(Grid.ITEMS, m.x, m.y);
-		String name = grid.get(Grid.TERRAIN, m.x, m.y);
-		if (name.endsWith("floor")){
-			String terrain = m.name.endsWith("drone")? "scraps of metal": "blood";
-			grid.set(Grid.TERRAIN, m.x, m.y, terrain);
+		if (m.name.equals("Dark Eater")){
+			for (int i=0; i<3; i++)
+				if (grid.get(Grid.TERRAIN, darkEater[i].x, darkEater[i].y).equals("floor"))
+					grid.set(Grid.TERRAIN, darkEater[i].x, darkEater[i].y, "blood");
+		}
+		else{
+			String name = grid.get(Grid.TERRAIN, m.x, m.y);
+			if (name.endsWith("floor")){
+				String terrain = m.name.endsWith("drone")? "scraps of metal": "blood";
+				grid.set(Grid.TERRAIN, m.x, m.y, terrain);
+			}
 		}	
 		grid.remove(Grid.MOBS, m.x, m.y);
 		m.hold(); //will only be removed from list at the end of the round	
@@ -194,7 +217,15 @@ public class Game {
 		if (!grid.isHalfSolid(m.x+dx, m.y+dy)){
 			if (m == player)
 				m.target = new Point(dx, dy);
-			grid.move(m, m.x+dx, m.y+dy);
+			if (m.name.equals("Dark Eater")){
+				grid.remove(Grid.MOBS, darkEater[2].x, darkEater[2].y);
+				grid.set(Grid.MOBS, m.x+dx, m.y+dy, "Dark Eater");
+				darkEater[2] = darkEater[1];
+				darkEater[1] = darkEater[0];
+				darkEater[0] = new Point(m.x+dx, m.y+dy);
+			}
+			else
+				grid.move(m, m.x+dx, m.y+dy);
 			m.move(m.x+dx, m.y+dy);
 			if (Math.abs(dx)+Math.abs(dy)==2)
 				m.hold(Math.round(1.414f*(float)m.movement()));
@@ -261,7 +292,7 @@ public class Game {
 		}	
 		if (armor != m.armor() && m == player)
 			log.write("You're armor has been destroyed.");
-		if (m == player && weapon.name.equals("serpent's bite")){
+		if (m == player && (weapon.name.equals("serpent's bite") || weapon.name.equals("vule's bite"))){
 			m.poison = Random.normal(80,  100);
 			log.write("You feel the serpent's poison running in your veins");
 		}
@@ -506,11 +537,10 @@ public class Game {
 	}
 	
 	
-	public void fire(Board board, MOB m, Point target){
+	public void fire(Board board, MOB m, Point target, Item weapon){
 		if (m.x == target.x && m.y == target.y)
 			return;
-		Item weapon = m.weapon(); //when using a grenade the weapon is removed, therefore it's important to save the reference
-		m.fire();
+		m.fire(weapon);
 		int bonus = m.inTraits("Rapid Fire")? 1: 0;
 		m.hold(weapon.time-bonus);
 		
@@ -565,16 +595,17 @@ public class Game {
 		for (Point p: target.sphere(r)){
 			boolean isCritical = weapon.isGrenade()? false: isCritical(m);
 			MOB m1 = findFoe(p.x, p.y);
-			if (damage(m1, weapon, isCritical) && !m1.name.endsWith("drone")){
+			damage(m1, weapon, isCritical);
+			if (m1 != null && !m1.name.endsWith("drone")){
 				Point nextInLine = line.next();
 				if (grid.get(Grid.TERRAIN, nextInLine.x, nextInLine.y).endsWith("floor"))
 					grid.set(Grid.TERRAIN, nextInLine.x, nextInLine.y, "bloody floor");
-				if (grid.get(Grid.TERRAIN, nextInLine.x, nextInLine.y).endsWith("walll"))
+				if (grid.get(Grid.TERRAIN, nextInLine.x, nextInLine.y).endsWith("wall"))
 					grid.set(Grid.TERRAIN, nextInLine.x, nextInLine.y, "bloody wall");
-				}
-				if (weapon.name.equals("gas grenade") && !grid.get(Grid.TERRAIN, p.x, p.y).endsWith("wall"))
-					grid.gas.add(p);
-			}	
+			}
+			if (weapon.name.equals("gas grenade") && !grid.get(Grid.TERRAIN, p.x, p.y).endsWith("wall"))
+				grid.gas.add(p);
+		}	
 	}
 	
 	
@@ -827,7 +858,7 @@ public class Game {
 		for (Point p: grid.gas){
 			for (int x=-1; x<2; x++)
 				for (int y=-1; y<2; y++)
-					if (Random.isNext(60) && !grid.get(Grid.TERRAIN, x+p.x, y+p.y).endsWith("wall"))
+					if (Random.isNext(76) && !grid.get(Grid.TERRAIN, x+p.x, y+p.y).endsWith("wall"))
 						gas.add(new Point(p.x+x, p.y+y));
 		}
 		grid.gas.addAll(gas);

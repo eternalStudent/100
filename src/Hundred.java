@@ -151,7 +151,7 @@ public class Hundred{
 		case KeyEvent.VK_F:
 			if (m.weapon().isRanged() && m.ammo()>0){
 				p = m == data.player? data.aim(board, keyboard): new Point(data.player.x, data.player.y);
-				data.fire(board, m, p);		
+				data.fire(board, m, p, m.weapon());		
 			}
 			break;
 		case KeyEvent.VK_G:
@@ -163,7 +163,7 @@ public class Hundred{
 			break;
 		case KeyEvent.VK_E:
 			Item item = data.findItem(m.x, m.y);
-			if (item.isEquipable())
+			if (item != null && item.isEquipable())
 				data.equip(m, data.get(m));
 			else
 				data.activate(m);
@@ -171,6 +171,11 @@ public class Hundred{
 		case KeyEvent.VK_R:
 			data.reload(m);
 			break;
+		case KeyEvent.VK_T:
+			if (m.grenade() != null){
+				p = m == data.player? data.aim(board, keyboard): new Point(data.player.x, data.player.y);
+				data.fire(board, m, p, m.grenade());	
+			}
 		case KeyEvent.VK_Z:
 			data.swap(m);
 			break;

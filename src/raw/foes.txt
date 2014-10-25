@@ -1,0 +1,211 @@
+{
+[name]: "zed"
+[HP]: 9
+[XP]: 4
+[vision]: 9
+[move]: 9
+[dodge]: 0
+[weapon]: "combat knife"
+}
+{
+[name]: "guard"
+[HP]: 10
+[XP]: 5
+[vision]: 5
+[move]: 7
+[dodge]: 4
+[weapon]: "9mm handgun"
+}
+{
+[name]: "herdling"
+[HP]: 5
+[XP]: 2
+[vision]: 9
+[move]: 4
+[dodge]: 10
+[weapon]: "herdling's bite"
+}
+{
+[name]: "officer"
+[HP]: 10
+[XP]: 7
+[vision]: 6
+[move]: 7
+[dodge]: 4
+[weapon]: "5.56mm assault rifle"
+}
+{
+[name]: "screamer"
+[HP]: 25
+[XP]: 8
+[vision]: 8
+[move]: 8
+[dodge]: 6
+[weapon]: "scream"
+}
+{
+[name]: "soldier"
+[HP]: 10
+[XP]: 7
+[vision]: 6
+[move]: 7
+[dodge]: 4
+[ready]: "type I frag grenade"
+[weapon]: "7.62mm assault rifle"
+}
+{
+[name]: "serpent"
+[HP]: 11
+[XP]: 8
+[vision]: 9
+[move]: 4
+[dodge]: 7
+[weapon]: "serpent's bite"
+}
+{
+[name]: "ogg"
+[HP]: 18
+[XP]: 8
+[vision]: 9
+[move]: 8
+[dodge]: 2
+[weapon]: "axe"
+}
+{
+[name]: "inspector"
+[HP]: 10
+[XP]: 7
+[vision]: 6
+[move]: 7
+[dodge]: 5
+[weapon]: ".45 ACP handgun"
+[ready]: "riot baton"
+[armor]: "ballistic vest type I"
+}
+{
+[name]: "Enforcer"
+[HP]: 20
+[XP]: 32
+[vision]: 9
+[move]: 5
+[dodge]: 10
+[weapon]: "submachine gun"
+[armor]: "ballistic vest type II"
+}
+{
+[name]: "giant herdling"
+[HP]: 8
+[XP]: 6
+[vision]: 9
+[move]: 4
+[dodge]: 10
+[weapon]: "herdling's bite"
+}
+{
+[name]: "overseer"
+[HP]: 18
+[XP]: 12
+[vision]: 6
+[move]: 7
+[dodge]: 6
+[weapon]: "submachine gun"
+[armor]: "ballistic vest type II"
+}
+{
+[name]: "swordsman"
+[HP]: 13
+[XP]: 10
+[vision]: 7
+[move]: 5
+[dodge]: 10
+[weapon]: "sabre"
+}
+{
+[name]: "guardian drone"
+[HP]: 20
+[XP]: 20
+[vision]: 5
+[dodge]: 6
+[weapon]: "submachine gun"
+}
+{
+[name]: "tingler"
+[HP]: 22
+[XP]: 20
+[vision]: 7
+[dodge]: 8
+[weapon]: ".45 ACP handgun"
+}
+{
+[name]: "hound"
+[HP]: 22
+[XP]: 13
+[vision]: 10
+[move]: 4
+[dodge]: 12
+[weapon]: "hound's bite"
+}
+{
+[name]: "Killer"
+[HP]: 30
+[XP]: 44
+[vision]: 6
+[move]: 7
+[dodge]: 6
+[weapon]: "combat shotgun"
+[armor]: "ballistic vest type III"
+}
+{
+[name]: "kapre"
+[HP]: 40
+[XP]: 20
+[vision]: 7
+[move]: 7
+[dodge]: 2
+[weapon]: "kapre's fist"
+}
+{
+[name]: "detonation drone"
+[HP]: 1
+[XP]: 2
+[vision]: 12
+[move]: 2
+[dodge]: 0
+[weapon]: "detonation"
+}
+{
+[name]: "vule"
+[HP]: 22
+[XP]: 14
+[vision]: 9
+[move]: 4
+[dodge]:12
+[weapon]: "vule's bite"
+}
+{
+[name]: "Harbinger"
+[HP]: 40
+[XP]: 44
+[vision]: 10
+[move]: 7
+[dodge]: 10
+[weapon]: "5.56mm assault rifle"
+}
+{
+[name]: "Dark Eater"
+[HP]: 35
+[XP]: 44
+[vision]: 3
+[move]: 5
+[dodge]: 0
+[weapon]: "Dark Eater's bite"
+}
+{
+[name]: "shadow herdling"
+[HP]: 11
+[XP]: 7
+[vision]: 9
+[move]: 4
+[dodge]: 12
+[weapon]: "herdling's bite"
+}

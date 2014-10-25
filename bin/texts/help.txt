@@ -34,15 +34,17 @@ Key Bindings (or: How the crap do I play?):
 
 Arrow keys, End, PgUp, PgDn, Home - movement.
 
-f: fire equipped weapon (first press will trigger the aim, press again to shot).
-
 g: pick up an item.
 
-r: reload.
+f: fire equipped weapon (first press will trigger the aim, press again to shot).
+
+d/i: open inventory screen.
 
 e: arm an explosive device or equip an item.
 
-d/i: open inventory screen.
+r: reload.
+
+t: throw an equipped grenade.
 
 z: switch to your readied weapon.
 

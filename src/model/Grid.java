@@ -1,4 +1,7 @@
 package model;
+import util.Maze;
+import util.Rectangle;
+
 import java.awt.Dimension;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -120,7 +123,7 @@ public class Grid {
 	}
 	
 	public boolean isTransparent(int x, int y){
-		return Terrain.transparent(get(TERRAIN, x, y));
+		return Terrain.transparent(get(TERRAIN, x, y)) && !get(x, y).equals("Dark Eater");
 	}
 	
 	public boolean path(int x0, int y0, int x1, int y1){
@@ -209,14 +212,18 @@ public class Grid {
 			return p;
 	}
 	
-	private void addFoes(int amount, String name, MOB player){
+	private void addFoes(int amount, String name, int x, int y){
 		for (int i=0; i<amount; i++){
 			Point p;
 			do{
 				p = Random.nextPoint(1, width-2, 1, height-2);
-			}while(isHalfSolid(p.x, p.y) || Point.distance2(p.x,  p.y,  player.x,  player.y)<8);
+			}while(isHalfSolid(p.x, p.y) || Point.distance2(p.x,  p.y,  x,  y)<8);
 			set(Grid.MOBS, p.x, p.y, name);
 		}
+	}
+	
+	private void addFoes(int amount, String name, MOB player){
+		addFoes(amount, name, player.x, player.y);
 	}
 	
 	public void setStairs(MOB player){
@@ -229,7 +236,7 @@ public class Grid {
 			p= Random.nextPoint(1, width-2, 1, height-2);
 		}while(!get(TERRAIN, p.x, p.y).endsWith("floor") || !path(player.x, player.y, p.x, p.y));	
 		set(TERRAIN, p.x, p.y, "stairway");
-		if (floor == 8 || floor == 39){
+		if (floor == 8 || floor == 39 || floor == 61){
 			do {
 				p= Random.nextPoint(1, width-2, 1, height-2);
 			}while(!get(TERRAIN, p.x, p.y).endsWith("floor") || !path(player.x, player.y, p.x, p.y));	
@@ -253,6 +260,76 @@ public class Grid {
 		if (floor>30) addFoes(Random.nextInt(1, 2), "swordsman", player);
 		if (floor>30) addFoes(Random.nextInt(3, 5), "detonation drone", player);
 		if (floor>=34) addFoes(Random.nextInt(4, 6), "kapre", player);
+		if (floor>45) addFoes(Random.nextInt(2, 4), "vule", player);
+		if (floor>45) addFoes(Random.nextInt(1, 3), "shadow herdling", player);
+	}
+	
+	public void dungeon(){
+		clear(new Dimension(63, 25));
+		Maze maze=new Maze(20,8);
+		for (int x=0; x<width; x++)
+			for (int y=0; y<height; y++){
+				if (x%3==0 || y%3==0)
+					set(TERRAIN, x, y, "wall");
+			}	
+		
+		for (int x=0; x<20; x++)
+			for (int y=0; y<8; y++){
+				switch ((x-maze.array[x][y].x)*2+(y-maze.array[x][y].y)){
+				case -2: remove(TERRAIN, x*3+3, y*3+1); remove(TERRAIN, x*3+3, y*3+2);; break;
+				case -1: remove(TERRAIN, x*3+1, y*3+3); remove(TERRAIN, x*3+2, y*3+3); break;
+				case 1: remove(TERRAIN, x*3+1, y*3); remove(TERRAIN, x*3+2, y*3); break;
+				case 2: remove(TERRAIN, x*3, y*3+1); remove(TERRAIN, x*3, y*3+2); break;
+				}
+			}
+		
+		for (Rectangle r: maze.passage){
+			int x = r.x0;
+			int y = r.y0;
+			switch((r.x0-r.x1)*2+(r.y0-r.y1)){
+			case -2: remove(TERRAIN, x*3+3, y*3+1); remove(TERRAIN, x*3+3, y*3+2);; break;
+			case -1: remove(TERRAIN, x*3+1, y*3+3); remove(TERRAIN, x*3+2, y*3+3); break;
+			case 1: remove(TERRAIN, x*3+1, y*3); remove(TERRAIN, x*3+2, y*3); break;
+			case 2: remove(TERRAIN, x*3, y*3+1); remove(TERRAIN, x*3, y*3+2); break;
+			}
+		}
+		
+		set(MOBS, 1, 1, "player");
+		set(TERRAIN, 59, 23, "stairway");
+		gas.add(new Point(1, 23));
+		
+	}
+	
+	public void wormhole(){
+		clear(new Dimension(63, 25));
+		for (int x=0; x<width; x++)
+			for (int y=0; y<height; y++)
+				set(TERRAIN, x, y, "wall");
+		Point p = Random.nextPoint(1, width-2, 1, height-2);
+		for (int i=0; i<20; i++){
+			int x1 = Random.nextInt(1, width-2);
+			for (int x=Math.min(p.x, x1); x<=Math.max(p.x, x1); x++)
+				set(TERRAIN, x, p.y, "floor");
+			p = new Point(x1, p.y);
+			int y1 = Random.nextInt(1, height-2);
+			for (int y=Math.min(p.y, y1); y<=Math.max(p.y, y1); y++)
+				set(TERRAIN, p.x, y, "floor");
+			p = new Point(p.x, y1);
+		}
+		do {
+			p = Random.nextPoint(1, width-2, 1, height-2);
+		} while (get(TERRAIN, p.x, p.y).equals("wall"));
+		int x = p.x;
+		int y = p.y;
+		set(MOBS, x, y, "player");
+		do {
+			p = Random.nextPoint(1, width-2, 1, height-2);
+		} while (get(TERRAIN, p.x, p.y).equals("wall") || p.distance2(x, y)<8);
+		set(MOBS, p.x, p.y, "Dark Eater");
+		do {
+			p = Random.nextPoint(1, width-2, 1, height-2);
+		} while (get(TERRAIN, p.x, p.y).equals("wall"));
+		set(TERRAIN, p.x, p.y, "stairway");
 	}
 	
 	public boolean next() throws ParseException, URISyntaxException, IOException{
@@ -287,6 +364,14 @@ public class Grid {
 			readFile("harbinger.map", true);
 			return false;
 		}
+		if (floor == 52){
+			dungeon();
+			return false;
+		}
+		if (floor == 60){
+			wormhole();
+			return false;
+		}
 		copy(new RandomMap(width, height).grid);
 		if (floor == 19)
 			readFile("last resting place.map", false);
@@ -302,22 +387,6 @@ public class Grid {
 	public Point dropSpot(int x0, int y0){
 		int r=0;
 		while (true){
-//			for (int dx=0; dx<=r; dx++){
-//				int x = x0+dx;
-//				int y = y0+(r-dx);
-//				if (!isHalfSolid(x, y) && get(Grid.ITEMS, x, y) == null)
-//					return new Point(x, y);
-//				x = x0-dx;
-//				if (!isHalfSolid(x, y) && get(Grid.ITEMS, x, y) == null)
-//					return new Point(x, y);
-//				x = x0-dx;
-//				y = y0-(r-dx);
-//				if (!isHalfSolid(x, y) && get(Grid.ITEMS, x, y) == null)
-//					return new Point(x, y);
-//				x = x0+dx;
-//				if (!isHalfSolid(x, y) && get(Grid.ITEMS, x, y) == null)
-//					return new Point(x, y);
-//			}
 			for (Point p: Point.sphere(x0, y0, r)){
 				if (!isHalfSolid(p.x, p.y) && get(Grid.ITEMS, p.x, p.y) == null)
 					return new Point(p.x, p.y);

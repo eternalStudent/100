@@ -97,8 +97,9 @@ public class MOB{
 	}
 
 	public static MOB clone(MOB other){
+		String ready = other.grenade()==null? other.readied().name: other.grenade().name;
 		return new MOB(other.name, other.HP, other.XP, other.vision, other.move, other.dodge, 
-				other.weapon().name, other.readied().name, other.armor().name);
+				other.weapon().name, ready, other.armor().name);
 	}
 	
 	public static MOB clone(String name){
@@ -211,8 +212,15 @@ public class MOB{
 		return inv.armor;
 	}
 	
-	public void fire(){
-		inv.fire();
+	public Item grenade(){
+		return inv.getGrenade();
+	}
+	
+	public void fire(Item weapon){
+		if (weapon.isGrenade())
+			inv.throwGrenade();
+		else	
+			inv.fire();
 	}
 	
 	public boolean equip(){

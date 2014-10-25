@@ -1,21 +1,23 @@
 package model.mobs;
-import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.google.common.io.Resources;
 
 public class FoesMap {
 	
 private Map<String, MOB> map = new HashMap<>();
 	
 	protected FoesMap(){
-		try {readFile(new File("foes.txt"));} 
-		catch (FileNotFoundException e) {}
+		try {readFile(Resources.toString(getClass().getResource("/raw/foes.txt"), StandardCharsets.UTF_8));} 
+		catch (IOException e) {}
 	}
 	
 	private void set(String st, MOB m){
@@ -24,15 +26,6 @@ private Map<String, MOB> map = new HashMap<>();
 	
 	public MOB get(String st){
 		return map.get(st);
-	}
-	
-	private String fileToString(File file) throws FileNotFoundException{
-		Scanner sc = new Scanner(file);
-		StringBuilder sb = new StringBuilder();
-		while(sc.hasNextLine())
-			sb.append(sc.nextLine());
-		sc.close();
-		return sb.toString();
 	}
 	
 	private int toInt(Object obj){
@@ -65,8 +58,7 @@ private Map<String, MOB> map = new HashMap<>();
 		return initialValue;
 	}
 	
-	private void readFile(File file) throws FileNotFoundException{
-		String text = fileToString(file);
+	private void readFile(String text) throws FileNotFoundException{
 		Pattern pattern = Pattern.compile("\\{([^//}])*\\}");
 		Matcher matcher = pattern.matcher(text);
 		while (matcher.find()){

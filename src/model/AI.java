@@ -29,6 +29,8 @@ public class AI {
 				if (foe.weapon().cartridge.equals("12ga shell") && foe.weapon().rounds==0)
 					return KeyEvent.VK_R;
 			foe.target = player;
+			if (foe.grenade() != null)
+				return KeyEvent.VK_T;
 			if (foe.weapon().isRanged())
 				return KeyEvent.VK_F;
 			if (foe.name.equals("screamer")){ 
@@ -38,6 +40,8 @@ public class AI {
 			}	
 		}	
 		else{
+			if (foe.name.equals("Dark Eater"))
+				return toKey(Random.nextInt(-1,1), Random.nextInt(-1,1));
 			if (foe.name.endsWith("drone") || foe.name.equals("Harbinger"))
 				return 0;
 			if (foe.weapon().isRanged())

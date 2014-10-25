@@ -50,8 +50,8 @@
 [vision]: 6
 [move]: 7
 [dodge]: 4
-[weapon]: "type I frag grenade"
-[ready]: "7.62mm assault rifle"
+[ready]: "type I frag grenade"
+[weapon]: "7.62mm assault rifle"
 }
 {
 [name]: "serpent"
@@ -79,15 +79,16 @@
 [move]: 7
 [dodge]: 5
 [weapon]: ".45 ACP handgun"
+[ready]: "riot baton"
 [armor]: "ballistic vest type I"
 }
 {
 [name]: "Enforcer"
 [HP]: 20
 [XP]: 32
-[vision]: 6
-[move]: 7
-[dodge]: 6
+[vision]: 9
+[move]: 5
+[dodge]: 10
 [weapon]: "submachine gun"
 [armor]: "ballistic vest type II"
 }
@@ -189,4 +190,22 @@
 [move]: 7
 [dodge]: 10
 [weapon]: "5.56mm assault rifle"
+}
+{
+[name]: "Dark Eater"
+[HP]: 35
+[XP]: 44
+[vision]: 3
+[move]: 5
+[dodge]: 0
+[weapon]: "Dark Eater's bite"
+}
+{
+[name]: "shadow herdling"
+[HP]: 11
+[XP]: 7
+[vision]: 9
+[move]: 4
+[dodge]: 12
+[weapon]: "herdling's bite"
 }

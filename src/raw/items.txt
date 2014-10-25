@@ -1,0 +1,463 @@
+{
+[name]: "unarmed"
+[type]: N
+[desc]: "your bare hands and feet"
+[weight]: 0
+[damage]: 1
+[time]: 7
+}
+{
+[name]: "claws"
+[type]: N
+[desc]: "your mighty claws"
+[weight]: 0
+[damage]: 8
+[time]: 7
+}
+{
+[name]: "herdling's bite"
+[type]: N
+[weight]: 0
+[damage]: 4
+[time]: 5
+}
+{
+[name]: "serpent's bite"
+[type]: N
+[weight]: 0
+[damage]: 3
+[time]: 5
+}
+{
+[name]: "hound's bite"
+[type]: N
+[weight]: 0
+[damage]: 5
+[time]: 5
+}
+{
+[name]: "vule's bite"
+[type]: N
+[weight]: 0
+[damage]: 7
+[time]: 5
+}
+{
+[name]: "scream"
+[type]: N
+[desc]: "Screamer's terrifying shriek"
+[weight]: 0
+[damage]: 0
+[time]: 9
+}
+{
+[name]: "detonation"
+[type]: N
+[weight]: 0
+[damage]: 13
+[time]: 0
+[radius]: 2
+}
+{
+[name]: "kapre's fist"
+[type]: N
+[weight]: 0
+[damage]: 10
+[time]: 9
+}
+{
+[name]: "Dark Eater's bite"
+[type]: N
+[weight]: 0
+[damage]: 16
+[time]: 8
+}
+{
+[name]: "brass knuckles"
+[type]: E
+[desc]: "Pieces of metal shaped to fit around the knuckles, used in hand-to-hand combat and designed to concentrate a punch's force"
+[weight]: 0
+[space]: 1
+}
+{
+[name]: "chef knife"
+[type]: M
+[desc]: "A multi-purpose cutting-tool designed for food preparation"
+[weight]: 1
+[space]: 1
+[damage]: 2
+[time]: 8
+}
+{
+[name]: "combat knife"
+[type]: M
+[desc]: "A 7 in. carbon steel clip point blade knife"
+[weight]: 3
+[space]: 1
+[damage]: 4
+[time]: 7
+}
+{
+[name]: "machete"
+[type]: M
+[desc]: "A large cleaver-like knife"
+[weight]: 3
+[space]: 2
+[damage]: 5
+[time]: 7
+}
+{
+[name]: "sabre"
+[type]: M
+[desc]: "A cross-hilted, curved, scimitar-like sword, used mostly ceremoniously"
+[weight]: 5
+[space]: 3
+[damage]: 7
+[time]: 8
+}
+{
+[name]: "axe"
+[type]: M
+[desc]: "A wooden-handled steel-headed fire axe designed primarily for breaking down doors and windows"
+[weight]: 16
+[space]: 3
+[damage]: 7
+[time]: 9
+}
+{
+[name]: "sledgehammer"
+[type]: M
+[desc]: "A tool with a large, flat head attached to a lever, makes for a very powerful but slow and heavy weapon"
+[weight]: 22
+[space]: 3
+[damage]: 8
+[time]: 10
+}
+{
+[name]: "riot baton"
+[type]: M
+[desc]: "A long thin club with a slightly thicker shaft and a rounded tip used to control riots"
+[weight]: 3
+[space]: 2
+[damage]: 2
+[time]: 8
+}
+{
+[name]: "shocker"
+[type]: M
+[desc]: "A small weapon used for incapacitating a person by administering electric shock."
+[weight]: 1
+[space]: 1
+[damage]: 2
+[time]: 8
+}
+{
+[name]: "revolver"
+[type]: R
+[desc]: "A six-shot double-action revolver, chambered for the .38 Special catridge."
+[weight]: 6
+[space]: 2
+[time]: 5
+[damage]: 5
+[cartridge]: ".38 special speedloader"
+[accuracy]: 0
+[reload]: 9
+}
+{
+[name]: "9mm handgun"
+[type]: R
+[desc]: "A semi-automatic, magazine-fed, 9mm pistol, with a capacity of 17 rounds magazine"
+[weight]: 4
+[space]: 2
+[damage]: 6
+[time]: 5
+[cartridge]: "9mm magazine"
+[accuracy]: 0
+[reload]: 9
+}
+{
+[name]: ".45 ACP handgun"
+[type]: R
+[desc]: "A semi-automatic, magazine-fed, recoil-operated pistol, chambered for the .45 ACP cartridge, with the capacity of 7 rounds"
+[weight]: 7
+[space]: 2
+[damage]: 7
+[time]: 5
+[cartridge]: ".45 ACP magazine"
+[accuracy]: 0
+[reload]: 9
+}
+{
+[name]: "submachine gun"
+[type]: R
+[desc]: "A full-automatic, open-bolt, blowback-operated, 9mm submachine gun; powerful and fast, but not very accurate"
+[weight]: 21
+[space]: 2
+[damage]: 9
+[time]: 5
+[cartridge]: "9mm extended magazine"
+[accuracy]: -5
+[reload]: 9
+}
+{
+[name]: "5.56mm assault rifle"
+[type]: R
+[desc]: "A semi-automatic, 5.56mm, air-cooled, gas-operated, magazine-fed assault rifle; makes for a lightweight and accurate weapon"
+[weight]: 19
+[space]: 3
+[damage]: 9
+[time]: 6
+[cartridge]: "5.56mm magazine"
+[accuracy]: 5
+[reload]: 10
+}
+{
+[name]: "7.62mm assault rifle"
+[type]: R
+[desc]: "A semi-automatic, 7.62mm, gas-operated, magazine-fed assault rifle; able to deal quite a bit of damage"
+[weight]: 21
+[space]: 3
+[damage]: 11
+[time]: 6
+[cartridge]: "7.62mm magazine"
+[accuracy]: 2
+[reload]: 10
+}
+{
+[name]: "bullpop assault rifle"
+[type]: R
+[desc]: "A semi-automatic, 5.56mm, magazine-fed, bullpop assault rifle; for fast reloading"
+[weight]: 20
+[space]; 3
+[damage]: 10
+[time]: 6
+[cartridge]: "5.56mm magazine"
+[accuracy]: 7
+[reload]: 9
+}
+{
+[name]: "grenade launcher"
+[type]: R
+[desc]: "A single shot 40mm under-slung grenade launcher designed to attach to a rifle."
+[weight]: 8
+[space]: 2
+[damage]: 15
+[time]: 7
+[cartridge]: "40mm grenade"
+[radius]: 1
+[reload]: 10
+}
+{
+[name]: "shotgun" TOZ-34 for refrence
+[type]: R
+[desc]: "A double-barrelled, break-action, 12ga shotgun; usually used for hunting"
+[weight]: 20
+[space]: 3
+[damage]: 13
+[time]: 6
+[cartridge]: "12ga shell"
+[capacity]: 2
+[reload]: 10 single
+}
+{
+[name]: "combat shotgun"
+[type]: R
+[desc]: "A pump-action, 12ga shotgun, with a capacity of 9 rounds."
+[weight]: 19
+[space]: 3
+[damage]: 13
+[time]: 6
+[cartridge]: "12ga shell"
+[capacity]: 9
+[reload]: 10 single
+}
+{
+[name]: ".38 special speedloader"
+[type]: a
+[desc]: "A rimmed, centerfire, cartridge used in revolvers"
+[weight]: 4
+[space]: 1
+[rounds]: 6
+}
+{
+[name]: "9mm magazine"
+[type]: a
+[desc]: "A 9x19mm Parabellum, 17 rounds magazine for pistols"
+[weight]: 1
+[space]: 1
+[rounds]: 17
+}
+{
+[name]: "9mm extended magazine"
+[type]: a
+[desc]: "A 9x19mm Parabellum, 32 rounds magazine for submachine guns."
+[weight]: 1
+[space]: 1
+[rounds]: 32
+}
+{
+[name]: ".45 ACP magazine"
+[type]: a
+[desc]: "A .45 Atomatic Colt Pistol, 7 rounds magazine"
+[weight]: 1
+[space]: 1
+[rounds]: 7
+}
+{
+[name]: "5.56mm magazine"
+[type]: a
+[desc]: "A 5.56x45mm NATO 30 rounds for assault rifles"
+[weight]: 1
+[space]: 1
+[rounds]: 30
+}
+{
+[name]: "7.62mm magazine"
+[type]: a
+[desc]: "A 7.62x21mm Parabellum, 30 rounds magazine for assault rifles"
+[weight]: 2
+[space]: 1
+[rounds]: 30
+}
+{
+[name]: "40mm grenade"
+[type]: a
+[desc]: "A 40x53mm grenade for grenade launcher"
+[weight]: 1
+[space]: 1
+[rounds]: 1
+}
+{
+[name]: "12ga shell"
+[type]: a
+[desc]: "A 12 gauge shotgun shell"
+[weight]: 0
+[space]: 1
+[rounds]: 5
+}
+{
+[name]: "ballistic vest type I"
+[type]: A
+[desc]: "A bullet resistent vest type I"
+[weight]: 12
+[space]: 4
+[damage]: 1
+}
+{
+[name]: "ballistic vest type II"
+[type]: A
+[desc]: "A bullet resistent vest type II"
+[weight]: 15
+[space]: 4
+[damage]: 2
+}
+{
+[name]: "ballistic vest type III"
+[type]: A
+[desc]: "A bullet resistent vest type III"
+[weight]: 17
+[space]: 4
+[damage]: 3
+}
+{
+[name]: "ballistic vest type IV"
+[type]: A
+[desc]: "A bullet resistent vest type IV"
+[weight]: 19
+[space]: 4
+[damage]: 4
+}
+{
+[name]: "lightweight ballistic vest type III"
+[type]: A
+[desc]: "A lightweight bullet resistent vest type III"
+[weight]: 13
+[space]: 4
+[damage]: 3
+}
+{
+[name]: "lightweight ballistic vest type IV"
+[type]: A
+[desc]: "A lightweight bullet resistent vest type IV"
+[weight]: 16
+[space]: 4
+[damage]: 4
+}
+{
+[name]: "type I frag grenade"
+[type]: G
+[desc]: "A small smooth spherical grenade with an effective radius 5 meters"
+[weight]: 2
+[space]: 1
+[rounds]: 1
+[damage]: 15
+[time]: 9
+[cartridge]: "type I frag grenade"
+[radius]: 1
+}
+{
+[name]: "type II frag grenade"
+[type]: G
+[desc]: "A medium size pineapple grenade with an effective radius of 6 meters."
+[weight]: 2
+[space]: 1
+[rounds]: 1
+[damage]: 19
+[time]: 9
+[cartridge]: "type II frag grenade"
+[radius]: 2
+}
+{
+[name]: "gas grenade"
+[type]: G
+[desc]: "A bullbous grenade which releases abnoxious gas upon impact."
+[weight]: 2
+[space]: 1
+[rounds]: 1
+[damage]: 0
+[time]: 9
+[cartridge]: "gas grenade"
+[radius]: 1
+}
+{
+[name]: "stun grenade"
+[type]: G
+[desc]: "A cylindrical canister which produces a super bright light that dazzles anyone in the effective radius of 6 meters."
+[weight]: 2
+[space]: 1
+[rounds]: 1
+[damage]: 0
+[time]: 9
+[cartridge]: "stun grenade"
+[radius]: 2
+}
+{
+[name]: "bandage"
+[type]: U
+[desc]: "A strip of clothe with an absorbent barrier to prevent adhering to wounds"
+[weight]: 0
+[space]: 1
+}
+{
+[name]: "adrenaline syringe"
+[type]: U
+[desc]: "A small syringe containing an adrenaline shot. This will increase your vitality, but with a permanent damage penalty."
+[weight]: 0
+[space]: 1
+}
+{
+[name]: "plastic explosive"
+[type]: X
+[desc]: "A soft and hand-moldable solid form of explosive material composed with a plastic binder and a plasticizer to make it malleable"
+[weight]: 2
+[space]: 2
+[damage]: 20
+[radius]: 3
+}
+{
+[name]: "gas Mask"
+[type]: E
+[desc]: "A mask used to protect the user from inhaling airborne pollutants and toxic gases"
+[weight]: 2
+[space]: 3
+}
