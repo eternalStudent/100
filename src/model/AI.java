@@ -19,8 +19,10 @@ public class AI {
 	public int next(){
 		if (foe.stun>0)
 			return toKey(Random.nextInt(-1,1), Random.nextInt(-1,1));
+		if (foe.name.equals("Arcadian Healer"))
+			return KeyEvent.VK_H;
 		Point player = playerInSight();
-		if ((foe.weapon().isRanged() && foe.ammo()==0) || foe.weapon() ==  Item.NO_WEAPON)
+		if ((foe.weapon().isRanged() && foe.ammo()==0) || (foe.weapon() ==  Item.NO_WEAPON && foe.readied() != null))
 			return KeyEvent.VK_Z;
 		if (player != null){
 			if (foe.name.equals("Harbinger") && player.distance2(foe.x, foe.y)>3)
@@ -29,6 +31,8 @@ public class AI {
 				if (foe.weapon().cartridge.equals("12ga shell") && foe.weapon().rounds==0)
 					return KeyEvent.VK_R;
 			foe.target = player;
+			if (foe.name.equals("gord") && player.distance2(foe.x, foe.y)<=6)
+				return KeyEvent.VK_B;
 			if (foe.grenade() != null)
 				return KeyEvent.VK_T;
 			if (foe.weapon().isRanged())

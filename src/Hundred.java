@@ -10,6 +10,7 @@ import model.mobs.Item;
 import model.mobs.ListOfTraits;
 import model.mobs.MOB;
 import model.mobs.Trait;
+import music.BackgroundMusic;
 import util.IntValue;
 import util.Point;
 import view.Board;
@@ -19,6 +20,7 @@ public class Hundred{
 	
 	private static final Keyboard keyboard = new Keyboard();
 	private static final Board board = new Board(keyboard);
+	private final BackgroundMusic music = new BackgroundMusic();
 	private final Game data;
 	
 	public static void main(String[] args){
@@ -62,6 +64,7 @@ public class Hundred{
 	}
 	
 	private Hundred(){
+		music.setNewTrack("opening");
 //		------prologue-----
 		try {
 			board.setPrologue();
@@ -76,7 +79,7 @@ public class Hundred{
 		}
 		
 //		------game---------
-		data = new Game(chooseTraits());
+		data = new Game(chooseTraits(), music);
 		data.setGameScreen(board);
 		MOB player = data.player;
 		do{
@@ -202,6 +205,14 @@ public class Hundred{
 		case KeyEvent.VK_K:
 			if (m != data.player)
 				data.summon(m);
+			break;
+		case KeyEvent.VK_B:
+			if (m != data.player)
+				data.breathFire(m, board);
+			break;
+		case KeyEvent.VK_H:
+			if (m != data.player)
+				data.heal(m, board);
 			break;
 		}
 		

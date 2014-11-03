@@ -175,8 +175,6 @@ public class MOB{
 			if (name.equals("player")){
 				if (inTraits("Claws"))
 					return Item.CLAWS;
-				if (hasKnuckles())
-					return Item.KNUCKLES;
 				return Item.UNARMED;
 			}	
 			return Item.NO_WEAPON;
@@ -311,13 +309,19 @@ public class MOB{
 		return HP<=0;
 	}
 	
-	public int damage(){
-		int bonus = !weapon().isRanged() && inTraits("Inhuman Strength")? 7: 0;
-		if (weapon().name.equals("claws"))
+	public int extraDamage(Item weapon){
+		int bonus = !weapon.isRanged() && inTraits("Inhuman Strength")? 7: 0;
+		if (weapon.name.equals("claws"))
 			bonus+=level;
-		if (weapon().name.equals("sabre") && inTraits("Blade Dancer"))
+		if (weapon.name.equals("sabre") && inTraits("Blade Dancer"))
 			bonus+=6;
-		return weapon().damage()+bonus;
+		if (weapon.name.equals("unarmed") && hasKnuckles())
+			bonus++;
+		return bonus;
+	}
+	
+	public int extraDamage(){
+		return extraDamage(weapon());
 	}
 	
 	public void takeDamage(int amount){

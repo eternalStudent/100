@@ -22,14 +22,11 @@ public class Item{
 	private static final char EQUIPABLE='E';
 	
 	public static final Item UNARMED;
-	public static final Item KNUCKLES;
 	public static final Item CLAWS;
 	public static final Item NO_WEAPON;
 	public static final Item NO_ARMOR;
 	static{
 		UNARMED = clone("unarmed");
-		KNUCKLES = new Item("brass knuckles", 'N', "", 0, 0);
-		KNUCKLES.damage = 2;
 		CLAWS = clone("claws");
 		NO_WEAPON = new Item("none", 'N',"no weapon", 0, 0);
 		NO_ARMOR = new Item(null, 'N', "no armor", 0, 0);
@@ -126,6 +123,7 @@ public class Item{
 		    clip.start();
 		}
 		catch(Exception e){
+			e.printStackTrace();
 			System.out.println(name);
 		}
 	}
@@ -176,7 +174,12 @@ public class Item{
 	}
 	
 	public String toString(){
-		return name;
+		String st = name;
+		if (isAmmo() || name.endsWith("shotgun"))
+			st += " ("+rounds+")";
+		if (isArmor())
+			st += " ("+HP+")";
+		return st;
 	}
 
 }

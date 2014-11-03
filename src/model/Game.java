@@ -24,6 +24,7 @@ import model.mobs.Inventory;
 import model.mobs.Item;
 import model.mobs.MOB;
 import model.mobs.Trait;
+import music.BackgroundMusic;
 
 public class Game {
 	
@@ -33,11 +34,14 @@ public class Game {
 	public final List<Item> items = new ArrayList<>();
 	private final Grid grid = new Grid(80, 25);
 	public final Log log = new Log(3);
+	private final BackgroundMusic music;
 	private MOB summoned;
 	
 	
-	public Game(List<Trait> traits){
+	public Game(List<Trait> traits, BackgroundMusic music){
+		this.music = music;
 		player = new MOB(traits);
+		this.music.setNewTrack("main theme");
 		try {newFloor();} 
 		catch (IOException | ParseException | URISyntaxException e) {}	
 		if (player.weapon().isRanged())
@@ -279,19 +283,21 @@ public class Game {
 	}
 	
 	
-	public boolean damage(MOB m, Item weapon, boolean isCritical){ //returns true if death
+	public boolean damage(MOB m, Item weapon, boolean isCritical, int extra){ //returns true if death
 		if (m==null)
 			return false;
 		Item armor = m.armor();
-		m.takeDamage(weapon.damage());
+		m.takeDamage(weapon.damage()+extra);
 		if (isCritical){
 			log.write("Critical Hit!");
-			m.takeDamage(weapon.damage());
+			m.takeDamage(weapon.damage()+extra);
 			if (!weapon.isRanged())
-				m.takeDamage(weapon.damage());
+				m.takeDamage(weapon.damage()+extra);
 		}	
-		if (armor != m.armor() && m == player)
+		if (armor != m.armor() && m == player){
+			playSound("armor breaks");
 			log.write("You're armor has been destroyed.");
+		}	
 		if (m == player && (weapon.name.equals("serpent's bite") || weapon.name.equals("vule's bite"))){
 			m.poison = Random.normal(80,  100);
 			log.write("You feel the serpent's poison running in your veins");
@@ -319,7 +325,7 @@ public class Game {
 		int r = weapon.radius;
 		boom(board, x0, y0, r);
 		for (Point p: Point.sphere(x0, y0, r))
-			damage(findFoe(p.x, p.y), weapon, false);	
+			damage(findFoe(p.x, p.y), weapon, false, 0);	
 	}
 	
 	
@@ -352,7 +358,7 @@ public class Game {
 			}
 			
 			// hit
-			if (damage(m1, m0.weapon(), isCritical(m0)) && m0==player && player.inTraits("Thrill of the Kill")){
+			if (damage(m1, m0.weapon(), isCritical(m0), m0.extraDamage()) && m0==player && player.inTraits("Thrill of the Kill")){
 				if (m0.HP<m0.maxHP)
 					m0.heal(3);
 				else
@@ -595,7 +601,7 @@ public class Game {
 		for (Point p: target.sphere(r)){
 			boolean isCritical = weapon.isGrenade()? false: isCritical(m);
 			MOB m1 = findFoe(p.x, p.y);
-			damage(m1, weapon, isCritical);
+			damage(m1, weapon, isCritical, m.extraDamage(weapon));
 			if (m1 != null && !m1.name.endsWith("drone")){
 				Point nextInLine = line.next();
 				if (grid.get(Grid.TERRAIN, nextInLine.x, nextInLine.y).endsWith("floor"))
@@ -801,6 +807,45 @@ public class Game {
 	}
 	
 	
+	public void breathFire(MOB m, Board board){
+		m.weapon().playSound();
+		Line line = new Line(m.x, m.y, player.x, player.y);
+		for (int i=0; i<line.distance(); i++){
+			Point p = line.get(i);
+			grid.effects.put(new Point(p.x, p.y), new Tile(15, 14, 12));
+			damage(findFoe(p.x, p.y), m.weapon(), false, 0);
+			String terrain = grid.get(Grid.TERRAIN, p.x, p.y);
+			if (terrain.equals("table") || terrain.equals("closed door"))
+				grid.set(Grid.TERRAIN, p.x, p.y, "floor");
+		}
+		board.repaint();
+		try {Thread.sleep(150);} 
+		catch (InterruptedException e) {};
+		grid.effects.clear();
+		board.repaint();
+		m.hold(m.weapon().time);
+	}
+	
+	
+	public void heal(MOB m, Board board){
+		playSound("heal");
+		Set<Point> sphere = Point.sphere(m.x, m.y, 7);
+		for (Point p: sphere){
+			MOB m1 = findFoe(p.x, p.y);
+			if (m1 != null && Random.isNext()){
+				grid.effects.put(p, board.keyMap.get("m1.name").bg(15));
+				m1.heal(10);
+			}
+		}
+		board.repaint();
+		try {Thread.sleep(400);} 
+		catch (InterruptedException e) {};
+		grid.effects.clear();
+		board.repaint();
+		m.hold();
+	}
+	
+	
 	public void poison(MOB m){
 		if (m.poison())
 			death(m);
@@ -845,7 +890,7 @@ public class Game {
 					int r = item.radius;
 					boom(board, item.x, item.y, r);
 					for (Point p: Point.sphere(item.x, item.y, r)){
-						damage(findFoe(p.x, p.y), item, false);
+						damage(findFoe(p.x, p.y), item, false, 0);
 						if (!grid.get(Grid.TERRAIN, p.x, p.y).equals("stairway"))
 							grid.set(Grid.TERRAIN, p.x, p.y, "floor");
 						grid.remove(Grid.ITEMS, p.x, p.y);

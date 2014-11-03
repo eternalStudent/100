@@ -252,16 +252,16 @@ public class Grid {
 		if (floor>7 && floor<20) addFoes(Random.normal(0,  2), "screamer", player);
 		if (floor>=11 && floor<23) addFoes(Random.nextInt(2,3), "inspector", player);
 		if (floor>=11 && floor<23) addFoes(Random.nextInt(2, 4), "serpent", player);
-		if (floor>15 && floor<31) addFoes(Random.nextInt(1, 2), "soldier", player);
+		if (floor>15 && floor<60) addFoes(Random.nextInt(1, 2), "soldier", player);
 		if (floor>15 && floor<31) addFoes(Random.nextInt(1, 2), "giant herdling", player);
 		if (floor>23 && floor<35) addFoes(Random.nextInt(2, 3), "overseer", player);
 		if (floor>23) addFoes(Random.nextInt(1, 2), "guardian drone", player);
-		if (floor>23) addFoes(Random.normal(0, 2), "tingler", player);
-		if (floor>30) addFoes(Random.nextInt(1, 2), "swordsman", player);
-		if (floor>30) addFoes(Random.nextInt(3, 5), "detonation drone", player);
+		if (floor>23 && floor<60) addFoes(Random.normal(0, 2), "tingler", player);
+		if (floor>30 && floor<45) addFoes(Random.nextInt(3, 5), "detonation drone", player);
 		if (floor>=34) addFoes(Random.nextInt(4, 6), "kapre", player);
 		if (floor>45) addFoes(Random.nextInt(2, 4), "vule", player);
 		if (floor>45) addFoes(Random.nextInt(1, 3), "shadow herdling", player);
+		if (floor>60) addFoes(2, "gord", player);
 	}
 	
 	public void dungeon(){
@@ -370,6 +370,14 @@ public class Grid {
 		}
 		if (floor == 60){
 			wormhole();
+			return false;
+		}
+		if (floor == 68){
+			readFile("the pit.map", true);
+			return false;
+		}
+		if (floor == 75){
+			readFile("arcadia.map", true);
 			return false;
 		}
 		copy(new RandomMap(width, height).grid);

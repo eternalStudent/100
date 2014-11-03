@@ -209,3 +209,38 @@
 [dodge]: 12
 [weapon]: "herdling's bite"
 }
+{
+[name]: "gord"
+[HP]: 35
+[XP]: 16
+[vision]: 6
+[move]: 7
+[dodge]: 8
+[weapon]: "fire breath"
+}
+{
+[name]: "Shepherd of Arcadia"
+[HP]: 40
+[XP]: 44
+[vision]: 7
+[move]: 6
+[dodge]: 12
+[weapon]: "combat shotgun"
+}
+{
+[name]: "Arcadian Healer"
+[HP]: 40
+[XP]: 15
+[vision]: 7
+[move]: 6
+[dodge]: 12
+}
+{
+[name]: "colossal herdling"
+[HP]: 22
+[XP]: 7
+[vision]: 9
+[move]: 4
+[dodge]: 12
+[weapon]: "herdling's bite"
+}

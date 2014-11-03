@@ -19,7 +19,7 @@ import model.mobs.Trait;
 @SuppressWarnings("serial")
 public class Board extends JFrame{
 	
-	private final TileKeyMap keyMap = new TileKeyMap();
+	public final TileKeyMap keyMap = new TileKeyMap();
 	private final Tileset tileset = new Tileset("tileset.png");
 	
 	public Board(){

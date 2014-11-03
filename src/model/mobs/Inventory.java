@@ -38,9 +38,9 @@ public class Inventory {
 		list.add(item);	
 	}
 	
-	protected void remove(Item item){
+	private void unequip(Item item){
 		if (item == null)
-				return;
+			return;
 		item.equiped = false;
 		grenades.remove(item);
 		if (item == gasMask)
@@ -57,6 +57,12 @@ public class Inventory {
 			for (int i=0; i<size(); i++)
 				if (get(i).magazine == item)
 					get(i).magazine = null;
+		}
+	
+	protected void remove(Item item){
+		if (item == null)
+			return;
+		unequip(item);
 		weight -= item.weight;
 		space -= item.space;
 		list.remove(item);
@@ -83,6 +89,10 @@ public class Inventory {
 	}
 	
 	protected boolean equip(Item item){
+		if (item.equiped){
+			unequip(item);
+			return false;
+		}
 		if (item.isEquipable()){
 			if (!contains(item))
 				add(item);

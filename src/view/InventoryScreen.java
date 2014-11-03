@@ -29,12 +29,7 @@ public class InventoryScreen extends Screen{
 				g.setColor(tileset.color(7));
 				writeDesc(g, item.desc, 23, 2, 45);
 			}
-			String name = item.name;
-			draw(g, keyMap.get(name), 1, i+3);
-			if (item.isAmmo())
-				name += " ("+item.rounds+")";
-			if (item.isArmor())
-				name += " ("+item.HP+")";
+			draw(g, keyMap.get(item.name), 1, i+3);
 			if (item.equiped){
 				if (item.isAmmo())
 					writeTF(g, "F", 0, i+3);
@@ -43,7 +38,7 @@ public class InventoryScreen extends Screen{
 			}	
 			if (inv.isReady(item))
 				writeTF(g, "R", 0, i+3);
-			writeTF(g, name, 2, i+3);
+			writeTF(g, item.toString(), 2, i+3);
 		}
 	}
 
