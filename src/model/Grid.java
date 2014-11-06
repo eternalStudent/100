@@ -226,7 +226,7 @@ public class Grid {
 		addFoes(amount, name, player.x, player.y);
 	}
 	
-	public void setStairs(MOB player){
+	public void setStairsAndFoes(MOB player){
 		for (int x=-1; x<2; x++)
 			for (int y=-1; y<2; y++)
 				if (!get(TERRAIN, player.x+x, player.y+y).endsWith("floor"))
@@ -332,6 +332,21 @@ public class Grid {
 		set(TERRAIN, p.x, p.y, "stairway");
 	}
 	
+	private void nitemareFloor(){
+		RandomMap map = new RandomMap(false);
+		Point p1 = Random.nextPoint(3, width-4, 3, height-4);
+		map.room(p1.x-2, p1.y-2, p1.x+2, p1.y+2);
+		Point p2 = Random.nextPoint(3, width-4, 3, height-4);
+		map.room(p2.x-2, p2.y-2, p2.x+2, p2.y+2);
+		Point p3 = Random.nextPoint(3, width-4, 3, height-4);
+		map.room(p3.x-2, p3.y-2, p3.x+2, p3.y+2);
+		copy(map.grid);
+		set(TERRAIN, p1.x, p1.y, "stairway");
+		set(MOBS, p1.x, p1.y, "Nitemare");
+		set(MOBS, p2.x, p2.y, "gord");
+		set(MOBS, p3.x, p3.y, "kapre");
+	}
+	
 	public boolean next() throws ParseException, URISyntaxException, IOException{
 		floor++;
 		visual.clear();
@@ -380,7 +395,11 @@ public class Grid {
 			readFile("arcadia.map", true);
 			return false;
 		}
-		copy(new RandomMap(width, height).grid);
+		if (floor == 90){
+			nitemareFloor();
+			return false;
+		}
+		copy(new RandomMap().grid);
 		if (floor == 19)
 			readFile("last resting place.map", false);
 		return true;

@@ -2,6 +2,7 @@ package model.mobs;
 import java.util.ArrayList;
 import java.util.List;
 
+import sound.Sound;
 import util.Random;
 
 public class Inventory {
@@ -153,7 +154,7 @@ public class Inventory {
 		if (item == null)
 			return null;
 		if (item.isUsable()){
-			item.playSound();
+			Sound.play(item.name);
 			remove(item);
 			return item;
 		}
@@ -181,12 +182,12 @@ public class Inventory {
 	}
 	
 	protected void throwGrenade(){
-		getGrenade().playSound();
+		Sound.play(getGrenade().name);
 		grenades.remove(0);
 	}
 	
 	protected void fire(){
-	    weapon.playSound();	
+		Sound.play(weapon.name);
 	    if (weapon.name.equals("submachine gun"))
 	    	weapon.rounds -= Math.min(Random.normal(3, 5), weapon.rounds);
 		if (weapon.cartridge.equals("12ga shell")){
@@ -216,7 +217,7 @@ public class Inventory {
 				else
 					magazine().equiped = true;
 				if (playSound)
-					item.playSound();
+					Sound.play(item.name);
 				return true;
 			}
 			weapon.magazine = null;

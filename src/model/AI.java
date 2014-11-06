@@ -21,6 +21,8 @@ public class AI {
 			return toKey(Random.nextInt(-1,1), Random.nextInt(-1,1));
 		if (foe.name.equals("Arcadian Healer"))
 			return KeyEvent.VK_H;
+		if (foe.name.equals("Nitemare"))
+			return KeyEvent.VK_C;
 		Point player = playerInSight();
 		if ((foe.weapon().isRanged() && foe.ammo()==0) || (foe.weapon() ==  Item.NO_WEAPON && foe.readied() != null))
 			return KeyEvent.VK_Z;
@@ -46,7 +48,7 @@ public class AI {
 		else{
 			if (foe.name.equals("Dark Eater"))
 				return toKey(Random.nextInt(-1,1), Random.nextInt(-1,1));
-			if (foe.name.endsWith("drone") || foe.name.equals("Harbinger"))
+			if (foe.name.endsWith("drone") || foe.name.equals("Harbinger") || grid.floor == 90)
 				return 0;
 			if (foe.weapon().isRanged())
 				if (foe.weapon().cartridge.equals("12ga shell") && foe.weapon().rounds<foe.weapon().capacity)

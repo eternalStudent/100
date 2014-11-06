@@ -31,10 +31,10 @@ public class GameScreen extends Screen{
 	public void paint(Graphics g){
 		super.paint(g);
 		try{
+			if (grid.floor == 90)
+				grid.visual.clear();
 			grid.visual.addAll(player.visual);
-			
-		}
-		catch (ConcurrentModificationException e){}
+		}catch (ConcurrentModificationException e){}
 		try{
 			for (Point p: grid.visual){
 				Tile tile = keyMap.get(grid.get(p.x, p.y));

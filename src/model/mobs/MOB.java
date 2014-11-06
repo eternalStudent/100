@@ -110,6 +110,8 @@ public class MOB{
 		MOB m = clone(name);
 		m.move(x, y);
 		m.target = new Point(x, y);
+		if (name == "Nitemare")
+			m.wait = 70;
 		return m;
 	}
 	

@@ -2,6 +2,8 @@ package view;
 
 import java.awt.Graphics;
 
+import texts.Text;
+
 @SuppressWarnings("serial")
 public class TextScreen extends Screen{
 	

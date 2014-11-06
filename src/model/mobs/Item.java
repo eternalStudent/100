@@ -1,11 +1,5 @@
 package model.mobs;
 
-import java.net.URL;
-
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-
 import util.Random;
 
 public class Item{
@@ -105,27 +99,6 @@ public class Item{
 
 	private static int normal(int x){
 		return Random.normal(x-x/2, x+x/2);
-	}
-	
-	protected URL sound(){
-		String name = this.name;
-		if (name.startsWith("."))
-			name = name.substring(1);
-		return getClass().getResource("/sound/"+name+".wav");
-	}
-	
-	public void playSound(){
-		try{
-			URL url = sound();
-		    Clip clip = AudioSystem.getClip();
-		    AudioInputStream ais = AudioSystem.getAudioInputStream( url );
-		    clip.open(ais);
-		    clip.start();
-		}
-		catch(Exception e){
-			e.printStackTrace();
-			System.out.println(name);
-		}
 	}
 	
 	public void move(int x, int y){

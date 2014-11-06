@@ -6,7 +6,7 @@ import javax.media.*;
 
 public class BackgroundMusic implements Runnable, ControllerListener {
 	
-	Player player;
+	private Player player;
 	private URL next;
 	
 	public BackgroundMusic(){
@@ -17,8 +17,8 @@ public class BackgroundMusic implements Runnable, ControllerListener {
 	public void run() {
 	}
 	
-	public void setNewTrack(URL url){
-		this.next = url;
+	public void play(URL url, URL next){
+		this.next = next;
 		if (player != null){
 			player.stop();
 			player.close();
@@ -34,15 +34,25 @@ public class BackgroundMusic implements Runnable, ControllerListener {
 	      }
 	}
 	
-	public void setNewTrack(String name){
-		setNewTrack(getClass().getResource(name+".wav"));
+	public void play(String name1, String name2){
+		play(getClass().getResource(name1+".wav"), getClass().getResource(name2+".wav"));
+	}
+	
+	public void play(String name){
+		URL url = getClass().getResource(name+".wav");
+		play(url, url);
 	}
 
 	@Override
 	public void controllerUpdate(ControllerEvent e) {
 		if (e instanceof EndOfMediaEvent) {
-			setNewTrack(next);
+			play(next, next);
         }
+	}
+	
+	public void stop(){
+		player.stop();
+		player.close();
 	}
 
 }

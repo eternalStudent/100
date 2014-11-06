@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
+import texts.Text;
 import util.IntValue;
 import controller.Keyboard;
 import controller.Mouse;
@@ -68,11 +69,11 @@ public class Board extends JFrame{
 	}
 	
 	public void setPrologue() throws IOException{
-		setTextScreen("prologue.txt");
+		setTextScreen("prologue");
 	}
 	
 	public void setHelp() throws IOException{
-		setTextScreen("help.txt");
+		setTextScreen("help");
 	}
 	
 	public void setMenuScreen(IntValue option){

@@ -28,7 +28,7 @@ public class MapEditor implements Runnable, ActionListener {
 	private final Grid grid = new Grid(63, 25);
 	private final EditorMenuBar menuBar;
 	private final EditorToolBar toolBar;
-	private final Board display;
+	private final Board board;
 	private final IntValue layer = new IntValue(0);
 	private Point player;
 	
@@ -41,7 +41,7 @@ public class MapEditor implements Runnable, ActionListener {
 		catch (Exception e) { e.printStackTrace(); }
 		menuBar = new EditorMenuBar(this);
 		toolBar = new EditorToolBar(keyMap, tileset, this);
-		display = new Board(menuBar, toolBar, tileset, keyMap, grid, layer, mouse);
+		board = new Board(menuBar, toolBar, tileset, keyMap, grid, layer, mouse);
 		new Thread(this).start();
 	}
 	
@@ -74,7 +74,7 @@ public class MapEditor implements Runnable, ActionListener {
 					}	
 					grid.set(layer.value, x, y, toolBar.tile);
 				}	
-				display.repaint();
+				board.repaint();
 			}	
 		}
 		
@@ -103,17 +103,21 @@ public class MapEditor implements Runnable, ActionListener {
 				grid.clear(dim);
 		}
 		if (cmd.equals("Save")){
-			if (chooser.showSaveDialog(display) == JFileChooser.APPROVE_OPTION) {
+			if (chooser.showSaveDialog(board) == JFileChooser.APPROVE_OPTION) {
                 File file = chooser.getSelectedFile();
-                try{grid.writeFile(file);}
-                catch(Exception e){}
+                try{
+                	grid.writeFile(file);
+                	board.setTitle(file.getName());
+                }catch(Exception e){}
 			}    
 		}
 		if (cmd.equals("Open")){
-			if (chooser.showSaveDialog(display) == JFileChooser.APPROVE_OPTION) {
+			if (chooser.showSaveDialog(board) == JFileChooser.APPROVE_OPTION) {
                 File file = chooser.getSelectedFile();
-                try{grid.readFile(file, true);}
-                catch(Exception e){}
+                try{
+                	grid.readFile(file, true);
+                	board.setTitle(file.getName());
+                }catch(Exception e){}
 			}    
 		}
 		if (cmd.equals("Save Key Map")){
@@ -121,13 +125,13 @@ public class MapEditor implements Runnable, ActionListener {
 			catch (IOException e) {}
 		}
 		if (cmd.equals("Change Tileset")){
-			if (chooser.showSaveDialog(display) == JFileChooser.APPROVE_OPTION) {
+			if (chooser.showSaveDialog(board) == JFileChooser.APPROVE_OPTION) {
                 File file = chooser.getSelectedFile();
                 try{tileset.readFile(file);}
                 catch(Exception e){}
 			}    
 		}
-		display.repaint();
+		board.repaint();
 	}
 
 }

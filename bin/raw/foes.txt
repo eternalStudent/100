@@ -244,3 +244,12 @@
 [dodge]: 12
 [weapon]: "herdling's bite"
 }
+{
+[name]: "Nitemare"
+[HP]: 25
+[XP]: 44
+[vision]: 7
+[move]: 7
+[dodge]: 12
+[weapon]: "cold touch"
+}

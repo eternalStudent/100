@@ -2,7 +2,6 @@ package model;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -10,11 +9,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-
 import controller.Keyboard;
+import sound.Sound;
 import util.Line;
 import util.Point;
 import util.Random;
@@ -41,7 +37,7 @@ public class Game {
 	public Game(List<Trait> traits, BackgroundMusic music){
 		this.music = music;
 		player = new MOB(traits);
-		this.music.setNewTrack("main theme");
+		this.music.play("main theme1", "main theme2");
 		try {newFloor();} 
 		catch (IOException | ParseException | URISyntaxException e) {}	
 		if (player.weapon().isRanged())
@@ -56,22 +52,6 @@ public class Game {
 		board.setGameScreen(grid, player, log);
 	}
 	
-	private void playSound(URL url){
-		try{
-		    Clip clip = AudioSystem.getClip();
-		    AudioInputStream ais = AudioSystem.getAudioInputStream( url );
-		    clip.open(ais);
-		    clip.start();
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
-	}
-	
-	private void playSound(String sound){
-		playSound(getClass().getResource("/sound/"+sound+".wav"));
-	}
-
 	
 	public int AI(MOB m){
 		return new AI(grid, m).next();
@@ -80,7 +60,7 @@ public class Game {
 	
 	public void newFloor() throws ParseException, URISyntaxException, IOException{
 		if (grid.next())
-			grid.setStairs(player);
+			grid.setStairsAndFoes(player);
 		foes.clear();
 		darkEater[0] = null;
 		items.clear();
@@ -101,6 +81,7 @@ public class Game {
 				}
 			}	
 		}
+		grid.set(Grid.MOBS, player.x, player.y, "player");
 		if (darkEater[0] != null){
 			grid.set(Grid.MOBS, darkEater[1].x, darkEater[1].y, "Dark Eater");
 			grid.set(Grid.MOBS, darkEater[2].x, darkEater[2].y, "Dark Eater");
@@ -239,7 +220,7 @@ public class Game {
 			// presence of an item
 			Item item = findItem(m.x, m.y);
 			if (m==player && item != null){
-				String text = "There's "+Words.article(item)+item.name+" there.";
+				String text = "There's "+Words.article(item)+item+" there.";
 				if (grid.floor == 1){
 					text += " Press  'g' to pick it up.";
 					if (item.isEquipable())
@@ -295,7 +276,7 @@ public class Game {
 				m.takeDamage(weapon.damage()+extra);
 		}	
 		if (armor != m.armor() && m == player){
-			playSound("armor breaks");
+			Sound.play("armor breaks");
 			log.write("You're armor has been destroyed.");
 		}	
 		if (m == player && (weapon.name.equals("serpent's bite") || weapon.name.equals("vule's bite"))){
@@ -303,6 +284,7 @@ public class Game {
 			log.write("You feel the serpent's poison running in your veins");
 		}
 		if (m.name.equals("tingler") && !m.dead()){
+			Sound.play("blink");
 			do{
 				Point p=Random.nextPoint(m.x-5, m.x+5, m.y-5, m.y+5);
 				grid.move(m, p.x, p.y);
@@ -335,7 +317,7 @@ public class Game {
 			if (m0==player && m0.weapon().name.equals("sabre") && m0.inTraits("Blade Dancer"))
 				bonus+=3;
 			m0.hold(m0.weapon().time-bonus);
-			m0.weapon().playSound();
+			Sound.play(m0.weapon().name);
 			
 			//detonation
 			if (m0.weapon().name.equals("detonation")){
@@ -684,7 +666,7 @@ public class Game {
 	public boolean use(MOB m, Item item){
 		m.use(item);
 		if (item != null){
-			String text = m==player? "You use": "The "+m+" uses ";
+			String text = m==player? "You use ": "The "+m+" uses ";
 			text +=Words.article(item)+item+".";
 			log.write(text);
 			if (item == findItem(m.x, m.y))
@@ -713,11 +695,11 @@ public class Game {
 		}
 		String terrain = grid.get(Grid.TERRAIN, m.x, m.y);
 		if (terrain.equals("toilet")){
-			playSound("toilet");
+			Sound.play("toilet");
 			log.write("You use the toilet, a much needed relief.");
 		}
 		if (terrain.equals("sink")){
-			playSound("sink");
+			Sound.play("sink");
 			log.write("You wash your hands in the sink.");
 		}
 	}
@@ -752,15 +734,23 @@ public class Game {
 			try {
 				if (terrain.equals("elevator")){
 					grid.floor+=5;
-					playSound("elevator");
+					Sound.play("elevator");
 				}	
 				else
-					playSound("stairway");
+					Sound.play("stairway");
 				newFloor();
 				if (grid.floor == 30)
-					playSound("killer floor");
+					Sound.play("Killer floor");
 				if (grid.floor == 45)
-					playSound("harbinger floor");
+					Sound.play("Harbinger floor");
+				if (grid.floor == 60)
+					Sound.play("Dark Eater floor");
+				if (grid.floor == 90)
+					Sound.play("Nitemare floor");
+				if (grid.floor == 7)
+					music.play("office");
+				if (grid.floor % 15 == 1 || grid.floor == 8)
+					music.play("main theme1", "main theme2");
 			} 
 			catch (IOException | ParseException | URISyntaxException e) {
 				e.printStackTrace();
@@ -781,7 +771,7 @@ public class Game {
 	public void scream(MOB screamer){
 		if (foes.size()>1){
 			log.write("the screamer screams");
-			screamer.weapon().playSound();
+			Sound.play(screamer.weapon().name);
 			int i;
 			do{
 				i = Random.nextInt(foes.size());
@@ -808,7 +798,7 @@ public class Game {
 	
 	
 	public void breathFire(MOB m, Board board){
-		m.weapon().playSound();
+		Sound.play(m.weapon().name);
 		Line line = new Line(m.x, m.y, player.x, player.y);
 		for (int i=0; i<line.distance(); i++){
 			Point p = line.get(i);
@@ -828,7 +818,7 @@ public class Game {
 	
 	
 	public void heal(MOB m, Board board){
-		playSound("heal");
+		Sound.play("heal");
 		Set<Point> sphere = Point.sphere(m.x, m.y, 7);
 		for (Point p: sphere){
 			MOB m1 = findFoe(p.x, p.y);
@@ -843,6 +833,32 @@ public class Game {
 		grid.effects.clear();
 		board.repaint();
 		m.hold();
+	}
+	
+	public void coldTouch(MOB m, Board board){
+		Point p;
+		do{
+			p = Random.nextPoint(-1, 1, -1, 1);
+		}while(p.x == 0 || p.y == 0);
+		grid.effects.put(p.add(player.x, player.y), board.keyMap.get("Nitemare"));
+		grid.effects.put(new Point(m.x, m.y), board.keyMap.get(grid.get(Grid.TERRAIN, m.x, m.y)));
+		board.repaint();
+		try {Thread.sleep(400);} 
+		catch (InterruptedException e) {};
+		Sound.play("cold touch");
+		grid.effects.put(new Point(player.x, player.y), new Tile((int)'\\', 15, 0));
+		board.repaint();
+		try {Thread.sleep(190);} 
+		catch (InterruptedException e) {};
+		grid.effects.remove(new Point(player.x, player.y));
+		board.repaint();
+		try {Thread.sleep(200);} 
+		catch (InterruptedException e) {};
+		grid.effects.clear();
+		board.repaint();
+		damage(player, m.weapon(), false, 0);
+		m.HP += 8;
+		m.hold(Random.normal(85, 140));
 	}
 	
 	
@@ -886,7 +902,7 @@ public class Game {
 				if (item.timer>0)
 					item.timer--;
 				else{
-					item.playSound();
+					Sound.play(item.name);;
 					int r = item.radius;
 					boom(board, item.x, item.y, r);
 					for (Point p: Point.sphere(item.x, item.y, r)){

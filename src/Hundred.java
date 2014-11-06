@@ -64,7 +64,7 @@ public class Hundred{
 	}
 	
 	private Hundred(){
-		music.setNewTrack("opening");
+		music.play("opening");
 //		------prologue-----
 		try {
 			board.setPrologue();
@@ -97,6 +97,7 @@ public class Hundred{
 			if (!player.dead())
 				data.endOfRound(board);
 		}while(!data.player.dead());
+		music.stop();
 		
 //		----post-mortem------		
 		board.repaint();
@@ -213,6 +214,10 @@ public class Hundred{
 		case KeyEvent.VK_H:
 			if (m != data.player)
 				data.heal(m, board);
+			break;
+		case KeyEvent.VK_C:
+			if (m != data.player)
+				data.coldTouch(m, board);
 			break;
 		}
 		

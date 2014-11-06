@@ -80,6 +80,11 @@
 [time]: 8
 }
 {
+[name]: "cold touch"
+[type]: N
+[damage]: 8
+}
+{
 [name]: "brass knuckles"
 [type]: E
 [desc]: "Pieces of metal shaped to fit around the knuckles, used in hand-to-hand combat and designed to concentrate a punch's force"

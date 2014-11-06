@@ -29,8 +29,15 @@ public class Keyboard implements KeyListener{
 	}
 	
 	public int get(){
-		while (!keypressed()){}
-		return queue.remove();
+		while (true){
+			if (keypressed())
+				return queue.remove();
+			try {
+				Thread.sleep(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}	
 	}
 	
 	public static Point ArrowToPoint(int arrow){
