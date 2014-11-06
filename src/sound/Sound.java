@@ -25,6 +25,8 @@ public class Sound {
 	}
 	
 	public static void play(String sound){
+		if (sound.startsWith("."))
+			sound = sound.substring(1);
 		play(sound.getClass().getResource("/sound/"+sound+".wav"));
 	}
 	

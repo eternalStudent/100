@@ -29,13 +29,14 @@ public class Keyboard implements KeyListener{
 	}
 	
 	public int get(){
-		while (true){
-			if (keypressed())
-				return queue.remove();
+		while (true){	
 			try {
+				if (keypressed())
+					return queue.remove();
 				Thread.sleep(1);
-			} catch (InterruptedException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
+				return 0;
 			}
 		}	
 	}
