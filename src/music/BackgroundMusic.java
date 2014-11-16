@@ -51,6 +51,8 @@ public class BackgroundMusic implements Runnable, ControllerListener {
 	}
 	
 	public void stop(){
+		if (player == null)
+			return;
 		player.stop();
 		player.close();
 	}

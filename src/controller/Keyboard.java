@@ -28,7 +28,7 @@ public class Keyboard implements KeyListener{
 		return !queue.isEmpty();
 	}
 	
-	public int get(){
+	public synchronized int get(){
 		while (true){	
 			try {
 				if (keypressed())

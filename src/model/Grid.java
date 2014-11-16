@@ -236,7 +236,7 @@ public class Grid {
 			p= Random.nextPoint(1, width-2, 1, height-2);
 		}while(!get(TERRAIN, p.x, p.y).endsWith("floor") || !path(player.x, player.y, p.x, p.y));	
 		set(TERRAIN, p.x, p.y, "stairway");
-		if (floor == 8 || floor == 39 || floor == 61){
+		if (floor == 8 || floor == 39 || floor == 61 || floor == 77){
 			do {
 				p= Random.nextPoint(1, width-2, 1, height-2);
 			}while(!get(TERRAIN, p.x, p.y).endsWith("floor") || !path(player.x, player.y, p.x, p.y));	
@@ -255,13 +255,20 @@ public class Grid {
 		if (floor>15 && floor<60) addFoes(Random.nextInt(1, 2), "soldier", player);
 		if (floor>15 && floor<31) addFoes(Random.nextInt(1, 2), "giant herdling", player);
 		if (floor>23 && floor<35) addFoes(Random.nextInt(2, 3), "overseer", player);
-		if (floor>23) addFoes(Random.nextInt(1, 2), "guardian drone", player);
+		if (floor>23 && floor<90) addFoes(Random.nextInt(1, 2), "guardian drone", player);
 		if (floor>23 && floor<60) addFoes(Random.normal(0, 2), "tingler", player);
 		if (floor>30 && floor<45) addFoes(Random.nextInt(3, 5), "detonation drone", player);
-		if (floor>=34) addFoes(Random.nextInt(4, 6), "kapre", player);
-		if (floor>45) addFoes(Random.nextInt(2, 4), "vule", player);
-		if (floor>45) addFoes(Random.nextInt(1, 3), "shadow herdling", player);
-		if (floor>60) addFoes(2, "gord", player);
+		if (floor>=34 && floor<90) addFoes(Random.nextInt(4, 6), "kapre", player);
+		if (floor>45 && floor<90) addFoes(Random.nextInt(2, 4), "vule", player);
+		if (floor>45 && floor<90) addFoes(Random.nextInt(1, 3), "shadow herdling", player);
+		if (floor>60 && floor<90) addFoes(2, "gord", player);
+		if (floor>90){
+			addFoes(Random.nextInt(3, 4), "elfilim", player);
+			addFoes(Random.nextInt(1, 2), "unfolder", player);
+			addFoes(Random.nextInt(0, 3), "unraveler", player);
+			if (Random.isNext(3))
+				addFoes(1, "Dark Eater", player);
+		}
 	}
 	
 	public void dungeon(){
@@ -397,6 +404,10 @@ public class Grid {
 		}
 		if (floor == 90){
 			nitemareFloor();
+			return false;
+		}
+		if (floor == 100){
+			readFile("last.map", true);
 			return false;
 		}
 		copy(new RandomMap().grid);

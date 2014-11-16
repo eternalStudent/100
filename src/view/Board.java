@@ -86,5 +86,8 @@ public class Board extends JFrame{
 		revalidate();
 	}
 
-
+	public void setOutroScreen() throws IOException{
+		setTextScreen("outro");
+	}
+	
 }

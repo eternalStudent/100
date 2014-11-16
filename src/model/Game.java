@@ -32,6 +32,7 @@ public class Game {
 	public final Log log = new Log(3);
 	private final BackgroundMusic music;
 	private MOB summoned;
+	public boolean win = false;
 	
 	
 	public Game(List<Trait> traits, BackgroundMusic music){
@@ -135,9 +136,11 @@ public class Game {
 		if (grid.get(Grid.ITEMS, m.x, m.y).equals("blood"))
 			grid.remove(Grid.ITEMS, m.x, m.y);
 		if (m.name.equals("Dark Eater")){
-			for (int i=0; i<3; i++)
+			for (int i=0; i<3; i++){
 				if (grid.get(Grid.TERRAIN, darkEater[i].x, darkEater[i].y).equals("floor"))
 					grid.set(Grid.TERRAIN, darkEater[i].x, darkEater[i].y, "blood");
+				grid.remove(Grid.MOBS, darkEater[i].x, darkEater[i].y);
+			}	
 		}
 		else{
 			String name = grid.get(Grid.TERRAIN, m.x, m.y);
@@ -147,6 +150,10 @@ public class Game {
 			}
 		}	
 		grid.remove(Grid.MOBS, m.x, m.y);
+		if (m.name.equals("Last Defender")){
+			log.write("You killed the Last Defender of the tower. press ENTER to continue");
+			win = true;
+		}
 		m.hold(); //will only be removed from list at the end of the round	
 	}
 	
@@ -199,7 +206,8 @@ public class Game {
 		}
 		
 		// actual movement
-		if (!grid.isHalfSolid(m.x+dx, m.y+dy)){
+		if (  !grid.isHalfSolid(m.x+dx, m.y+dy) || 
+				( m.name.equals("unfolder") && grid.get(Grid.MOBS, m.x+dx, m.y+dy) == null )  ){
 			if (m == player)
 				m.target = new Point(dx, dy);
 			if (m.name.equals("Dark Eater")){
@@ -291,9 +299,8 @@ public class Game {
 				m.move(p.x, p.y);
 			}while(grid.isHalfSolid(m.x, m.y) || !inSight(m, player.x, player.y));
 		}
-		if (weapon.name.equals("stun grenade")){
-			m.stun = 120;
-		}	
+		if (weapon.name.equals("stun grenade") && !m.name.endsWith("drone"))
+			m.stun = 120;	
 		if (m.dead()){
 			death(m);
 			return true;
@@ -580,16 +587,23 @@ public class Game {
 		}
 		
 		// hitting
+		Point nextInLine = line.next();
 		for (Point p: target.sphere(r)){
 			boolean isCritical = weapon.isGrenade()? false: isCritical(m);
 			MOB m1 = findFoe(p.x, p.y);
-			damage(m1, weapon, isCritical, m.extraDamage(weapon));
+			if (!damage(m1, weapon, isCritical, m.extraDamage(weapon))){
+				if ((weapon.name.endsWith("shotgun") || weapon.name.equals(".45 ACP handgun")) && 
+						!m1.name.equals("kapre") && !m1.name.equals("elfilim") && !m1.name.equals("Dark Eater")
+						&& !grid.isHalfSolid(nextInLine.x, nextInLine.y) && grid.get(Grid.MOBS, nextInLine.x, nextInLine.y) == null){
+					grid.move(m1, nextInLine.x, nextInLine.y);
+					m1.move(nextInLine.x, nextInLine.y);
+				}
+			}
 			if (m1 != null && !m1.name.endsWith("drone")){
-				Point nextInLine = line.next();
 				if (grid.get(Grid.TERRAIN, nextInLine.x, nextInLine.y).endsWith("floor"))
 					grid.set(Grid.TERRAIN, nextInLine.x, nextInLine.y, "bloody floor");
 				if (grid.get(Grid.TERRAIN, nextInLine.x, nextInLine.y).endsWith("wall"))
-					grid.set(Grid.TERRAIN, nextInLine.x, nextInLine.y, "bloody wall");
+					grid.set(Grid.TERRAIN, nextInLine.x, nextInLine.y, "bloody wall");			
 			}
 			if (weapon.name.equals("gas grenade") && !grid.get(Grid.TERRAIN, p.x, p.y).endsWith("wall"))
 				grid.gas.add(p);
@@ -749,6 +763,8 @@ public class Game {
 					Sound.play("Nitemare floor");
 				if (grid.floor == 7)
 					music.play("office");
+				if (grid.floor % 15 == 0 || grid.floor == 100)
+					music.play("boss fight1", "boss fight2");
 				if (grid.floor % 15 == 1 || grid.floor == 8)
 					music.play("main theme1", "main theme2");
 			} 
@@ -797,8 +813,21 @@ public class Game {
 	}
 	
 	
+	public void clone(MOB m){
+		Point p;
+		do{
+			p = Random.nextPoint(m.x-2, m.x+2, m.y-2, m.y+2);
+		}while( grid.isHalfSolid(p.x, p.y) || grid.get(Grid.MOBS, p.x, p.y) != null );
+		grid.set(Grid.MOBS, p.x, p.y, "ravelie");
+		summoned = MOB.newInstance("ravelie", p.x, p.y);
+		sight(summoned);
+		m.hold(9);
+	}
+	
+	
 	public void breathFire(MOB m, Board board){
 		Sound.play(m.weapon().name);
+		log.write("The "+m+" attacks you with his fire breath.");
 		Line line = new Line(m.x, m.y, player.x, player.y);
 		for (int i=0; i<line.distance(); i++){
 			Point p = line.get(i);
@@ -865,8 +894,18 @@ public class Game {
 	public void poison(MOB m){
 		if (m.poison())
 			death(m);
-		else if (grid.gas.contains(new Point(m.x, m.y)) && !m.isMasked())
+		else if (grid.gas.contains(new Point(m.x, m.y)) && !m.isMasked() && !m.name.endsWith("drone"))
 			m.poison = Random.normal(160, 200);
+	}
+	
+	
+	public void relocate(MOB m){
+		Point p;
+		do{
+			p = Random.nextPoint(1, grid.width-2, 1, grid.height-2);
+		}while( grid.isHalfSolid(p.x, p.y));
+		grid.move(m, p.x, p.y);
+		m.move(p.x, p.y);
 	}
 	
 		
@@ -889,6 +928,10 @@ public class Game {
 					log.write("The Harbinger heal himself");
 					m.heal(1);
 				}
+				if (m.name.equals("Last Defender") && Random.isNext(20) && m.isWounded())
+					m.heal(1);
+				if (m.name.equals("Last Defender") && Random.isNext(90))
+					relocate(m);
 				if (m.stun>0){
 					m.visual.remove(new Point(player.x, player.y));
 					m.stun--;

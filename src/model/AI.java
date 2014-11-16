@@ -27,13 +27,15 @@ public class AI {
 		if ((foe.weapon().isRanged() && foe.ammo()==0) || (foe.weapon() ==  Item.NO_WEAPON && foe.readied() != null))
 			return KeyEvent.VK_Z;
 		if (player != null){
+			if (foe.name.equals("unraveler") && Random.isNext(3))
+				return KeyEvent.VK_P;
 			if (foe.name.equals("Harbinger") && player.distance2(foe.x, foe.y)>3)
 				return KeyEvent.VK_K;
 			if (foe.weapon().isRanged())
 				if (foe.weapon().cartridge.equals("12ga shell") && foe.weapon().rounds==0)
 					return KeyEvent.VK_R;
 			foe.target = player;
-			if (foe.name.equals("gord") && player.distance2(foe.x, foe.y)<=6)
+			if (foe.weapon().name.equals("fire breath") && player.distance2(foe.x, foe.y)<=6)
 				return KeyEvent.VK_B;
 			if (foe.grenade() != null)
 				return KeyEvent.VK_T;
@@ -99,7 +101,7 @@ public class AI {
 		Point target = null;
 		do{
 			target = Random.nextElement(foe.visual);
-		}while(grid.isHalfSolid(target.x,  target.y));	
+		}while(grid.isHalfSolid(target.x,  target.y) && !(foe.name.equals("unfolder")));	
 		return target;
 	}
 	

@@ -253,3 +253,49 @@
 [dodge]: 12
 [weapon]: "cold touch"
 }
+{
+[name]: "elfilim"
+[HP]: 45
+[XP]: 22
+[vision]: 7
+[move]: 8
+[dodge]: 0
+[weapon]: "kapre's fist"
+}
+{
+[name]: "unfolder"
+[HP]: 18
+[XP]: 22
+[vision]: 6
+[move]: 7
+[dodge]: 6
+[weapon]: "5.56mm assault rifle"
+[armor]: "ballistic vest type III"
+}
+{
+[name]: "unraveler"
+[HP]: 18
+[XP]: 22
+[vision]: 7
+[move]: 7
+[dodge]: 10
+[weapon]: "sabre"
+}
+{
+[name]: "ravelie"
+[HP]: 13
+[XP]: 8
+[vision]: 7
+[move]: 6
+[dodge]: 10
+[weapon]: "fire breath"
+}
+{
+[name]: "Last Defender"
+[HP]: 100
+[XP]: 60
+[vision]: 7
+[move]: 6
+[dodge]: 12
+[weapon]: "7.62mm assault rifle"
+}

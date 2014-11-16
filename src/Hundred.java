@@ -20,7 +20,7 @@ public class Hundred{
 	
 	private static final Keyboard keyboard = new Keyboard();
 	private static final Board board = new Board(keyboard);
-	private final BackgroundMusic music = new BackgroundMusic();
+	private static final BackgroundMusic music = new BackgroundMusic();
 	private final Game data;
 	
 	public static void main(String[] args){
@@ -28,6 +28,7 @@ public class Hundred{
 		while(true){
 			IntValue option = new IntValue(0);
 			board.setMenuScreen(option);
+			music.stop();
 			int key;
 			do{
 				key=readkey();
@@ -58,6 +59,13 @@ public class Hundred{
 		
 	private static void help() throws IOException{
 		board.setHelp();
+		readkey();
+		board.repaint();
+		readkey();
+	}
+	
+	private static void outro() throws IOException{
+		board.setOutroScreen();
 		readkey();
 		board.repaint();
 		readkey();
@@ -96,12 +104,18 @@ public class Hundred{
 				}
 			if (!player.dead())
 				data.endOfRound(board);
-		}while(!data.player.dead());
-		music.stop();
+		}while(!data.player.dead() && !data.win);
+		music.play("aftermeth");
 		
-//		----post-mortem------		
+//		----post-mortem or win------		
 		board.repaint();
 		while(readkey()!=KeyEvent.VK_ENTER){}
+		if (data.win)
+			try {
+				outro();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		board.setLogScreen(data.log);
 		readkey();
 	}
@@ -219,6 +233,10 @@ public class Hundred{
 			if (m != data.player)
 				data.coldTouch(m, board);
 			break;
+		case KeyEvent.VK_P:
+			if (m != data.player)
+				data.clone(m);
+			break;	
 		}
 		
 	}
