@@ -90,4 +90,8 @@ public class Board extends JFrame{
 		setTextScreen("outro");
 	}
 	
+	public void serThanksScreen() throws IOException{
+		setTextScreen("thanks");
+	}
+	
 }

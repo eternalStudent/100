@@ -597,6 +597,7 @@ public class Game {
 						&& !grid.isHalfSolid(nextInLine.x, nextInLine.y) && grid.get(Grid.MOBS, nextInLine.x, nextInLine.y) == null){
 					grid.move(m1, nextInLine.x, nextInLine.y);
 					m1.move(nextInLine.x, nextInLine.y);
+					board.repaint();
 				}
 			}
 			if (m1 != null && !m1.name.endsWith("drone")){
