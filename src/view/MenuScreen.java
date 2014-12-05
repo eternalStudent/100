@@ -19,9 +19,8 @@ public class MenuScreen extends Screen{
 		super.paint(g);
 		write(g, "HUNDRED", 36, 6, 7);
 		write(g, "New Game", 36, 16, 7);
-		write(g, "Load Game", 36, 18, 8);
-		write(g, "Help", 36, 20, 7);
-		write(g, "Quit", 36, 22, 7);
+		write(g, "Help", 36, 18, 7);
+		write(g, "Quit", 36, 20, 7);
 		draw(g, new Tile(16, 14, 0), 33, 16+option.value*2);
 	}
 

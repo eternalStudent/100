@@ -34,12 +34,12 @@ public class Hundred{
 				key=readkey();
 				if (key == KeyEvent.VK_UP && option.value>0)
 					option.value--;
-				if (key == KeyEvent.VK_DOWN && option.value<3)
+				if (key == KeyEvent.VK_DOWN && option.value<2)
 					option.value++;
 				if (key == KeyEvent.VK_ENTER){
-					if (option.value==3)
+					if (option.value==2)
 						System.exit(0);
-					if (option.value == 2){ 
+					if (option.value == 1){ 
 						try {help();} 
 						catch (IOException e) {}
 						board.setMenuScreen(option);
