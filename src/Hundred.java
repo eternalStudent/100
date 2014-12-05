@@ -37,8 +37,15 @@ public class Hundred{
 				if (key == KeyEvent.VK_DOWN && option.value<2)
 					option.value++;
 				if (key == KeyEvent.VK_ENTER){
-					if (option.value==2)
+					if (option.value==2){
+						try{
+							board.setThanksScreen();
+						} catch (IOException e){
+							e.printStackTrace();
+						}
+						readkey();
 						System.exit(0);
+					}
 					if (option.value == 1){ 
 						try {help();} 
 						catch (IOException e) {}
