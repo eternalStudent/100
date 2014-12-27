@@ -101,6 +101,7 @@ public class Inventory {
 				if (gasMask != null)
 					gasMask.equiped = false;
 				gasMask = item;
+				item.equiped = true;
 			}	
 			if (item.name.equals("brass knuckles")){
 				if (brassKnuckles != null)
@@ -183,7 +184,7 @@ public class Inventory {
 	
 	protected void throwGrenade(){
 		Sound.play(getGrenade().name);
-		grenades.remove(0);
+		remove(grenades.remove(0));
 	}
 	
 	protected void fire(){

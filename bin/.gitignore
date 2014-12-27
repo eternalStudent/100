@@ -1,10 +1,11 @@
-/Hundred.class
-/MapEditor.class
+/sound/
+/music/
+/raw/
 /controller/
 /maps/
 /model/
-/music/
-/sound/
-/texts/
 /util/
 /view/
+/Hundred.class
+/MapEditor.class
+/texts/

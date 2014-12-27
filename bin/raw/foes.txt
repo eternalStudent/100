@@ -130,7 +130,7 @@
 }
 {
 [name]: "tingler"
-[HP]: 22
+[HP]: 28
 [XP]: 20
 [vision]: 7
 [dodge]: 8
