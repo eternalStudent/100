@@ -1,5 +1,4 @@
 package model.mobs;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
@@ -9,7 +8,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import com.google.common.io.Resources;
 
 public class ItemsMap {
@@ -74,7 +72,7 @@ public class ItemsMap {
 		return initialValue;
 	}
 	
-	private void readFile(String text) throws FileNotFoundException, ParseException{
+	private void readFile(String text) throws ParseException{
 		Pattern pattern = Pattern.compile("\\{([^//}])*\\}");
 		Matcher matcher = pattern.matcher(text);
 		while (matcher.find()){

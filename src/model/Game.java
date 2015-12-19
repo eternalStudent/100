@@ -581,7 +581,7 @@ public class Game {
 		
 		// missing
 		if (r==0 && grid.get(Grid.MOBS, target.x, target.y) == null){
-			text = m==player? "You misses": "The "+m.name+" misses.";
+			text = m==player? "You miss": "The "+m.name+" misses.";
 			log.write(text);
 			return;
 		}
@@ -853,7 +853,7 @@ public class Game {
 		for (Point p: sphere){
 			MOB m1 = findFoe(p.x, p.y);
 			if (m1 != null && Random.isNext()){
-				grid.effects.put(p, board.keyMap.get("m1.name").bg(15));
+				grid.effects.put(p, board.keyMap.get(m1.name).bg(15));
 				m1.heal(10);
 			}
 		}

@@ -1,5 +1,4 @@
 package model.mobs;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
@@ -58,7 +57,7 @@ private Map<String, MOB> map = new HashMap<>();
 		return initialValue;
 	}
 	
-	private void readFile(String text) throws FileNotFoundException{
+	private void readFile(String text){
 		Pattern pattern = Pattern.compile("\\{([^//}])*\\}");
 		Matcher matcher = pattern.matcher(text);
 		while (matcher.find()){

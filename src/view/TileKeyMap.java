@@ -1,6 +1,5 @@
 package view;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -45,7 +44,7 @@ public class TileKeyMap {
 		return Integer.parseInt(obj.toString());
 	}
 	
-	private void read(String text) throws FileNotFoundException, ParseException{
+	private void read(String text) throws ParseException{
 		String pattern = "({0}, ({1,number,integer}, {2,number,integer}, {3,number,integer}))";
 		Pattern p0 = Pattern.compile("\\{([^//}])*\\}");
 		Matcher m0 = p0.matcher(text);
